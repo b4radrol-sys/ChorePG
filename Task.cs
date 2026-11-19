@@ -1,51 +1,52 @@
-﻿class Feladat
+﻿class Task
 {
-    public string feladat_id
-    private string feladat_nev
-    private int feladat_nehezseg
-    public int feladat_xp
-    public int feladat_gold
+    public int id;
+    private string nev;
+    private int nehezseg;
+    public int xp;
+    public int gold;
 
-    private Feladat(string nev, int xpErtek)
+    public Task(int id, string nev, int nehezseg, int xp, int gold)
     {
-        
-        
+        this.id = id;
+        Nev = nev;
+        Nehezseg = nehezseg;
+        this.xp = xp; 
+        this.gold = gold;
+
     }
 
-    public string nev
+    public string Nev
     {
-        get { return feladat_nev; }
+        get { return nev; }
         set
         {
-            if (string.IsNullOrWhiteSpace(value))
+            if (string.IsNullOrEmpty(value))
             {
-                throw new ArgumentException("A nevet nem szabad üresen hagyni!")
+                throw new ArgumentException("A nevet nem szabad üresen hagyni!");
             }
 
             if (value.Contains(";"))
             {
-                throw new ArgumentException("A név nem tartalmazhat ';' -t")
+                throw new ArgumentException("A név nem tartalmazhat ';'-t");
             }
-
+            nev = value;
         }
     }
 
-    public string nehezseg
+    public int Nehezseg
     {
-        get { return feladat_nehezseg; }
+        get { return nehezseg; }
         set
         {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                throw new ArgumentException("A nehézséget nem szabad üresen hagyni!")
+            if (value > 9 || value < 1)
+            { 
+                throw new ArgumentException("A nehézség csak 1 és 9 közötti szám lehet! (1-legkönnyebb | 9-legnehezebb)");
             }
 
-            if (value.Contains(";"))
-            {
-                throw new ArgumentException("A nehézség nem tartalmazhat ';' -t")
-            }
-
+            nehezseg = value;
         }
+        
     }
 
 

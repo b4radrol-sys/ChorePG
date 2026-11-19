@@ -1,6 +1,7 @@
 ﻿Directory.CreateDirectory("../Fileok");
 File.AppendAllText("../Fileok/regisztraciok.txt", "");
 
+//---------------------------------------------------------------
 void exit()
 {
     Environment.Exit(0);
@@ -14,7 +15,10 @@ bool startup_check(string ertek)
     }
     return true;
 }
+//---------------------------------------------------------------
 
+
+//---------------------------------------------------------------
 void startup()
 {
     Console.WriteLine("        ----Üdvözöljük!----");
@@ -43,7 +47,10 @@ void startup()
     }
 
 }
+//---------------------------------------------------------------
 
+
+//---------------------------------------------------------------
 void create_datafiles(string username)
 {
     Directory.CreateDirectory($"../Fileok/{username}");
@@ -53,7 +60,10 @@ void create_datafiles(string username)
     File.Copy("template_player_inventory.csv", $"../Fileok/{username}/player_inventory.csv");
     File.Copy("template_legyozott_bossok.csv", $"../Fileok/{username}/legyozott_bossok.csv");
 }
+//---------------------------------------------------------------
 
+
+//---------------------------------------------------------------
 void register()
 {
         Console.WriteLine("Felhasználónév: ");
@@ -85,7 +95,10 @@ void register()
             Console.WriteLine(ex.Message);
         }
 }
+//---------------------------------------------------------------
 
+
+//---------------------------------------------------------------
 void login()
 {
     Console.WriteLine("Felhasználónév: ");
@@ -107,7 +120,7 @@ void login()
             if (koder.Ellenorzes(jelsz, x[1]))
             {
                 Console.WriteLine("siker");
-                // main menu fgv
+                main_menu(felh);
             }
             else
             {
@@ -121,8 +134,43 @@ void login()
         Console.WriteLine("Nincs ilyen felhasználónevű fiók");
     }
 }
+//---------------------------------------------------------------
 
 while (true)
 {
     startup();
 }
+
+//---------------------------------------------------------------
+void main_menu(string felhasznalo)
+{
+    while (true)
+    {
+        Console.Clear();
+        Console.WriteLine($"--- Üdvözöllek, {felhasznalo} ---");
+        Console.WriteLine("1. Teendők megtekintése / Teljesítése");
+        Console.WriteLine("2. Új teendő hozzáadása");
+        Console.WriteLine("3. Profil (XP, Level)");
+        Console.WriteLine("4. Kijelentkezés");
+
+        string valasztas = Console.ReadLine();
+
+        if (valasztas == "1") { teendoklistazasa(); }
+        else if (valasztas == "2") { ujfeladathozzadas(); }
+        else if (valasztas == "3") { profilmegtekintes(); }
+        else if (valasztas == "4") { break; }
+    }
+}
+//---------------------------------------------------------------
+
+
+//---------------------------------------------------------------
+void xp_adding(int pluszXp)
+{
+    // szint += xp 
+    Console.WriteLine($"Gratulálok! Kaptál {xp} XP-t!");
+}
+//---------------------------------------------------------------
+
+
+//---------------------------------------------------------------

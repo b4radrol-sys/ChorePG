@@ -27,6 +27,10 @@ void startup()
         visszaadas = Console.ReadLine();
     }
 
+    if (visszaadas == "1")
+    {
+        login();
+    }
 
     if (visszaadas == "2")
     {
@@ -40,17 +44,25 @@ void startup()
 
 }
 
+void create_datafiles(string username)
+{
+    Directory.CreateDirectory($"../Fileok/{username}");
+    File.Copy("template_player_stats.csv", $"../Fileok/{username}/player_stats.csv");
+    File.Copy("template_tasks.csv", $"../Fileok/{username}/player_tasks.csv");
+    File.Copy("template_task_archivum.csv", $"../Fileok/{username}/player_task_archivum.csv");
+    File.Copy("template_player_inventory.csv", $"../Fileok/{username}/player_inventory.csv");
+    File.Copy("template_legyozott_bossok.csv", $"../Fileok/{username}/legyozott_bossok.csv");
+}
+
 void register()
 {
-    while (true)
-    {
         Console.WriteLine("Felhasználónév: ");
         string user = Console.ReadLine();
+        user = user.ToUpper();
         Console.WriteLine("Jelszó: ");
         string password = Console.ReadLine();
         try
         {
-            bool sikeres = true;
             Regisztracio reg = new Regisztracio(user, password);
 
             foreach (string sor in File.ReadLines("../Fileok/regisztraciok.txt"))
@@ -63,38 +75,54 @@ void register()
 
             JelszoKoder koder = new();
             File.AppendAllText("../Fileok/regisztraciok.txt", $"{reg.Nev}:{koder.Kodolas(reg.Jelszo)}\n");
-            break;
+
+            create_datafiles(user);
+            Console.Clear();
         }
         catch (ArgumentException ex)
         {
             Console.Clear();
             Console.WriteLine(ex.Message);
-            break;
         }
+}
+
+void login()
+{
+    Console.WriteLine("Felhasználónév: ");
+    string felh = Console.ReadLine();
+    felh = felh.ToUpper();
+    Console.WriteLine("Jelszó:");
+    string jelsz = Console.ReadLine();
+
+    bool sikeres = false;
+
+    JelszoKoder koder = new();
+    foreach (string sor in File.ReadLines("../Fileok/regisztraciok.txt"))
+    {
+        string[] x = sor.Trim().Split(":");
+        if (x[0] == felh)
+        {
+            sikeres = true;
+
+            if (koder.Ellenorzes(jelsz, x[1]))
+            {
+                Console.WriteLine("siker");
+                // main menu fgv
+            }
+            else
+            {
+                Console.Clear();
+                Console.WriteLine("Rossz jelszó");
+            }
+        }
+    }
+    if (!sikeres)
+    {
+        Console.WriteLine("Nincs ilyen felhasználónevű fiók");
     }
 }
 
-startup();
-
-
-//string felh = Console.ReadLine();
-//string jelsz = Console.ReadLine();
-
-//JelszoKoder koder = new();
-//foreach (string sor in File.ReadLines("../Fileok/regisztraciok.txt"))
-//{
-//    string[] x = sor.Trim().Split(":");
-//    if (x[0] == felh)
-//    {
-//        if (koder.Ellenorzes(jelsz, x[1]))
-//        {
-//            Console.WriteLine("bent vagy");
-//        }
-//        else
-//        {
-//            Console.WriteLine("rossz jelsz");
-//        }
-//    }
-//}
-
-
+while (true)
+{
+    startup();
+}

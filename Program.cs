@@ -66,10 +66,11 @@ void create_datafiles(string username)
 //---------------------------------------------------------------
 void register()
 {
-        Console.WriteLine("Felhasználónév: ");
+        Console.Write("Felhasználónév: ");
         string user = Console.ReadLine();
+        Console.WriteLine();
         user = user.ToUpper();
-        Console.WriteLine("Jelszó: ");
+        Console.Write("Jelszó: ");
         string password = Console.ReadLine();
         try
         {
@@ -155,20 +156,23 @@ void main_menu(string felhasznalo)
 
         string valasztas = Console.ReadLine();
 
-        if (valasztas == "1") { teendoklistazasa(); }
-        else if (valasztas == "2") { ujfeladathozzadas(); }
-        else if (valasztas == "3") { profilmegtekintes(); }
-        else if (valasztas == "4") { break; }
+        //if (valasztas == "1") { teendoklistazasa(); }
+        //else if (valasztas == "2") { ujfeladathozzadas(); }
+        //else if (valasztas == "3") { profilmegtekintes(); }
+        //else if (valasztas == "4") { break; }
     }
 }
 //---------------------------------------------------------------
+void teendoklistazasa()
+{
 
+}
 
 //---------------------------------------------------------------
 void xp_adding(int pluszXp)
 {
     // szint += xp 
-    Console.WriteLine($"Gratulálok! Kaptál {xp} XP-t!");
+    //Console.WriteLine($"Gratulálok! Kaptál {xp} XP-t!");
 }
 //---------------------------------------------------------------
 

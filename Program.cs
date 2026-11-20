@@ -1,4 +1,5 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Net.Http.Headers;
+using System.Runtime.InteropServices;
 
 
 //---------------------------------------------------------------
@@ -216,7 +217,7 @@ void login()
 
 bool main_valasztas_check(string ertek)
 {
-    if (ertek != "1" && ertek != "2" && ertek != "3" && ertek != "4")
+    if (ertek != "1" && ertek != "2" && ertek != "3" && ertek != "4" && ertek != "5")
     {
         return false;
     }
@@ -239,6 +240,28 @@ void kilepes_check_main_menu(string ertek, string felhasznalo)
 //---------------------------------------------------------------
 
 
+void player_stat_kiiratas(string path)
+{
+    Console.Clear();
+    Console.WriteLine("--- Profil Statisztikak ---");
+    Console.WriteLine();
+
+    Dictionary<string,string> d = new();
+
+    string[] x = File.ReadAllLines(path);
+
+    Console.WriteLine($"{x[0].Split(";")[0]}: {x[1].Split(";")[0]}");
+    Console.WriteLine($"{x[0].Split(";")[1]}: {x[1].Split(";")[1]}");
+    Console.WriteLine($"{x[0].Split(";")[2]}: {x[1].Split(";")[2]}");
+    Console.WriteLine($"{x[0].Split(";")[3]}: {x[1].Split(";")[3]}");
+    Console.WriteLine($"{x[0].Split(";")[4]}: {x[1].Split(";")[4]}");
+
+
+    Console.WriteLine();
+    Console.WriteLine("Nyomj Entert a kilepeshez: ");
+    Console.ReadLine();
+    Console.Clear();
+}
 
 
 //---------------------------------------------------------------
@@ -278,20 +301,7 @@ void main_menu(string felhasznalo)
         else if (valasztas == "3")
         {
             Console.Clear();
-            Console.WriteLine("--- Profil Statisztikak ---");
-            Console.WriteLine();
-
-
-            foreach (string sor in File.ReadLines($"../Fileok/{felhasznalo}/player_stats.csv"))
-            {
-                Console.WriteLine(sor);
-            }
-
-
-            Console.WriteLine();
-            Console.WriteLine("Nyomj Entert a kilepeshez: ");
-            Console.ReadLine();
-            Console.Clear();
+            player_stat_kiiratas($"../Fileok/{felhasznalo}/player_stats.csv");
         }
         else if (valasztas == "4")
         {
@@ -581,14 +591,6 @@ void task_teljesitese(string felhasznalo, List<Task> taskok)
             xp_gold_adding(felhasznalo, s.xp, s.gold);
 
 
-            s.Nev = "-";
-            s.Nehezseg = 1;
-            s.xp = 0;
-            s.gold = 0;
-
-            task_felvetele_write(felhasznalo, taskok);
-
-
             Console.Clear();
             Console.WriteLine($"Gratulalok, hogy megcsinaltad!");
             Console.WriteLine($"Kaptál {s.xp} XP-t és {s.gold} Aranyat!");
@@ -596,6 +598,13 @@ void task_teljesitese(string felhasznalo, List<Task> taskok)
             Console.WriteLine("Nyomj Entert a kilepeshez: ");
             Console.ReadLine();
             Console.Clear();
+
+            s.Nev = "-";
+            s.Nehezseg = 1;
+            s.xp = 0;
+            s.gold = 0;
+
+            task_felvetele_write(felhasznalo, taskok);
             return;
         }
     }

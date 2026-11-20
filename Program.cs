@@ -1,7 +1,4 @@
-﻿using System.Net.Http.Headers;
-using System.Runtime.InteropServices;
-
-
+﻿
 //---------------------------------------------------------------
 
 
@@ -217,7 +214,7 @@ void login()
 
 bool main_valasztas_check(string ertek)
 {
-    if (ertek != "1" && ertek != "2" && ertek != "3" && ertek != "4" && ertek != "5")
+    if (ertek != "1" && ertek != "2" && ertek != "3" && ertek != "4" && ertek != "5" && ertek != "6")
     {
         return false;
     }
@@ -269,13 +266,15 @@ void main_menu(string felhasznalo)
 {
     while (true)
     {
+        Console.WriteLine();
         Console.WriteLine($"--- Üdvözöllek, {felhasznalo} ---");
         Console.WriteLine();
         Console.WriteLine("1. Taskok megtekintése");
         Console.WriteLine("2. Új task hozzáadása");
         Console.WriteLine("3. Profil statok megnézése (XP, Level)");
         Console.WriteLine("4. Task teljesítése");
-        Console.WriteLine("5. Kijelentkezés");
+        Console.WriteLine("5. Task törlése");
+        Console.WriteLine("6. Kijelentkezés");
 
 
         string valasztas = Console.ReadLine();
@@ -311,6 +310,11 @@ void main_menu(string felhasznalo)
         else if (valasztas == "5")
         {
             Console.Clear();
+            task_torlese(felhasznalo, task_peldanyositas(felhasznalo));
+        }
+        else if (valasztas == "6")
+        {
+            Console.Clear();
             Console.WriteLine("Sikeres kijelentkezes!");
             startup();
             break;
@@ -319,7 +323,51 @@ void main_menu(string felhasznalo)
 }
 //---------------------------------------------------------------
 
+void task_torlese(string felhasznalo, List<Task> taskok)
+{
 
+    Console.WriteLine("Kilépés a menübe (0)");
+    Console.WriteLine();
+    task_listazas(taskok);
+    Console.WriteLine();
+    Console.WriteLine("Melyik sorszamu taskot szeretnéd kitörölni? (1-9)");
+    string valasztas = Console.ReadLine();
+
+
+    kilepes_check_main_menu(valasztas, felhasznalo);
+
+
+    int v;
+    while (!int.TryParse(valasztas, out v) || v < 1 || v > 9)
+    {
+        Console.WriteLine("Helytelen, irj be egy szamot 1-9-ig:");
+        valasztas = Console.ReadLine();
+    }
+
+
+    foreach (Task s in taskok)
+    {
+        if (s.id == v)
+        {
+            if (s.Nev == "-")
+            {
+                Console.Clear();
+                Console.WriteLine("Ez már üres.");
+                return;
+            }
+
+            s.Nev = "-";
+            s.Nehezseg = 1;
+            s.xp = 0;
+            s.gold = 0;
+
+            Console.Clear();
+            Console.WriteLine("Sikeres törlés!");
+            task_felvetele_write(felhasznalo, taskok);
+            return;
+        }
+    }
+}
 
 
 //---------------------------------------------------------------

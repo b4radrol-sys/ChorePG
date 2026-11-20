@@ -32,13 +32,13 @@ bool startup_check(string ertek)
 void startup()
 {
     Console.WriteLine("        ----Üdvözöljük!----");
-    Console.WriteLine("Bejelentkezés (1) | Regisztrálás (2) | Kilépés (3)");
+    Console.Write("Bejelentkezés (1) | Regisztrálás (2) | Kilépés (3): ");
     string visszaadas = Console.ReadLine();
 
 
     while (!startup_check(visszaadas))
     {
-        Console.WriteLine("Helytelen! Válaszd ki az egyik opciót ( Bejelentkezés (1) | Regisztrálás (2) | Kilépés (3) )");
+        Console.Write("Helytelen! Válaszd ki az egyik opciót ( Bejelentkezés (1) | Regisztrálás (2) | Kilépés (3) ): ");
         visszaadas = Console.ReadLine();
     }
 
@@ -99,7 +99,7 @@ void kilepes_check_startup(string ertek)
 //---------------------------------------------------------------
 void register()
 {
-    Console.WriteLine("Kilépés a menübe (0)");
+    Console.WriteLine("---Kilépés a menübe (0)---");
 
 
     Console.Write("Felhasználónév: ");
@@ -153,14 +153,14 @@ void register()
 //---------------------------------------------------------------
 void login()
 {
-    Console.WriteLine("Kilépés a menübe (0)");
-    Console.WriteLine("Felhasználónév: ");
+    Console.WriteLine("---Kilépés a menübe (0)---");
+    Console.Write("Felhasználónév: ");
     string felh = Console.ReadLine();
     kilepes_check_startup(felh);
     felh = felh.ToUpper();
 
 
-    Console.WriteLine("Jelszó:");
+    Console.Write("Jelszó: ");
     string jelsz = Console.ReadLine();
     kilepes_check_startup(jelsz);
 
@@ -187,13 +187,13 @@ void login()
             if (koder.Ellenorzes(jelsz, x[1]))
             {
                 Console.Clear();
-                Console.WriteLine("siker");
+                Console.WriteLine("     ---Sikeres---");
                 main_menu(felh);
             }
             else
             {
                 Console.Clear();
-                Console.WriteLine("Rossz jelszó");
+                Console.WriteLine("---Rossz jelszó---");
                 login();
             }
         }
@@ -247,6 +247,7 @@ void main_menu(string felhasznalo)
     while (true)
     {
         Console.WriteLine($"--- Üdvözöllek, {felhasznalo} ---");
+        Console.WriteLine();
         Console.WriteLine("1. Taskok megtekintése");
         Console.WriteLine("2. Új task hozzáadása");
         Console.WriteLine("3. Profil statok megnézése (XP, Level)");
@@ -581,10 +582,9 @@ void task_teljesitese(string felhasznalo, List<Task> taskok)
 
 
             s.Nev = "-";
-            s.Nehezseg = 0;
+            s.Nehezseg = 1;
             s.xp = 0;
             s.gold = 0;
-
 
             task_felvetele_write(felhasznalo, taskok);
 

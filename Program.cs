@@ -1,11 +1,7 @@
 ﻿
 //---------------------------------------------------------------
-
-
 Directory.CreateDirectory("../Fileok");
 File.AppendAllText("../Fileok/regisztraciok.txt", "");
-
-
 //---------------------------------------------------------------
 void exit()
 {
@@ -22,9 +18,6 @@ bool startup_check(string ertek)
     return true;
 }
 //---------------------------------------------------------------
-
-
-
 
 //---------------------------------------------------------------
 void startup()
@@ -222,10 +215,6 @@ bool main_valasztas_check(string ertek)
 }
 
 
-
-
-
-
 void kilepes_check_main_menu(string ertek, string felhasznalo)
 {
     if (ertek == "0")
@@ -237,22 +226,15 @@ void kilepes_check_main_menu(string ertek, string felhasznalo)
 //---------------------------------------------------------------
 
 
-void player_stat_kiiratas(string path)
+void player_stat_kiiratas(string felhasznalo)
 {
     Console.Clear();
     Console.WriteLine("--- Profil Statisztikak ---");
     Console.WriteLine();
 
-    Dictionary<string,string> d = new();
+    Player player = Player.Peldanyositas(felhasznalo);
 
-    string[] x = File.ReadAllLines(path);
-
-    Console.WriteLine($"{x[0].Split(";")[0]}: {x[1].Split(";")[0]}");
-    Console.WriteLine($"{x[0].Split(";")[1]}: {x[1].Split(";")[1]}");
-    Console.WriteLine($"{x[0].Split(";")[2]}: {x[1].Split(";")[2]}");
-    Console.WriteLine($"{x[0].Split(";")[3]}: {x[1].Split(";")[3]}");
-    Console.WriteLine($"{x[0].Split(";")[4]}: {x[1].Split(";")[4]}");
-
+    player.player_stat_kiiratas();
 
     Console.WriteLine();
     Console.WriteLine("Nyomj Entert a kilepeshez: ");
@@ -282,7 +264,7 @@ void main_menu(string felhasznalo)
 
         while (!main_valasztas_check(valasztas))
         {
-            Console.WriteLine("Helytelen! Válaszd ki az egyik opciót (1-5)");
+            Console.WriteLine("Helytelen! Válaszd ki az egyik opciót (1-6)");
             valasztas = Console.ReadLine();
         }
 
@@ -290,27 +272,27 @@ void main_menu(string felhasznalo)
         if (valasztas == "1")
         {
             Console.Clear();
-            task_listazas(task_peldanyositas(felhasznalo));
+            Task.Listazas(Task.Peldanyositas(felhasznalo));
         }
         else if (valasztas == "2")
         {
             Console.Clear();
-            task_felvetele(felhasznalo, task_peldanyositas(felhasznalo));
+            task_felvetele(felhasznalo, Task.Peldanyositas(felhasznalo));
         }
         else if (valasztas == "3")
         {
             Console.Clear();
-            player_stat_kiiratas($"../Fileok/{felhasznalo}/player_stats.csv");
+            player_stat_kiiratas(felhasznalo);
         }
         else if (valasztas == "4")
         {
             Console.Clear();
-            task_teljesitese(felhasznalo, task_peldanyositas(felhasznalo));
+            task_teljesitese(felhasznalo, Task.Peldanyositas(felhasznalo));
         }
         else if (valasztas == "5")
         {
             Console.Clear();
-            task_torlese(felhasznalo, task_peldanyositas(felhasznalo));
+            task_torlese(felhasznalo, Task.Peldanyositas(felhasznalo));
         }
         else if (valasztas == "6")
         {
@@ -328,7 +310,7 @@ void task_torlese(string felhasznalo, List<Task> taskok)
 
     Console.WriteLine("Kilépés a menübe (0)");
     Console.WriteLine();
-    task_listazas(taskok);
+    Task.Listazas(taskok);
     Console.WriteLine();
     Console.WriteLine("Melyik sorszamu taskot szeretnéd kitörölni? (1-9)");
     string valasztas = Console.ReadLine();
@@ -344,7 +326,6 @@ void task_torlese(string felhasznalo, List<Task> taskok)
         valasztas = Console.ReadLine();
     }
 
-
     foreach (Task s in taskok)
     {
         if (s.id == v)
@@ -356,14 +337,12 @@ void task_torlese(string felhasznalo, List<Task> taskok)
                 return;
             }
 
-            s.Nev = "-";
-            s.Nehezseg = 1;
-            s.xp = 0;
-            s.gold = 0;
+            s.Torles();
 
             Console.Clear();
             Console.WriteLine("Sikeres törlés!");
-            task_felvetele_write(felhasznalo, taskok);
+            Task.Mentes(felhasznalo, taskok);
+
             return;
         }
     }
@@ -371,89 +350,32 @@ void task_torlese(string felhasznalo, List<Task> taskok)
 
 
 //---------------------------------------------------------------
-List<Task> task_peldanyositas(string felhasznalo)
+
+//---------------------------------------------------------------
+
+bool felvetel_limit_check(string felhasznalo)
 {
-    List<Task> taskok = new List<Task>();
-    foreach (string sor in File.ReadLines($"../Fileok/{felhasznalo}/player_tasks.csv").Skip(1))
+    int cnt = 0;
+    DateOnly ma = DateOnly.FromDateTime(DateTime.Today);
+    foreach (string s in File.ReadAllLines($"../Fileok/{felhasznalo}/player_task_archivum.csv"))
     {
-        string[] sorok = sor.Trim().Split(";");
-        taskok.Add(new Task(int.Parse(sorok[0]), sorok[1], int.Parse(sorok[2]), int.Parse(sorok[3]), int.Parse(sorok[4])));
+        if (s.Trim().Split(";")[0] == ma.ToString())
+        {
+            cnt++;
+        }
     }
-
-
-    return taskok;
+    if (cnt >= 10)
+    {
+        return true;
+    }
+    return false;
 }
-//---------------------------------------------------------------
-
-
-
-
-//---------------------------------------------------------------
-int task_gold_szamitas(int nehezseg)
-{
-    int gold;
-    if (nehezseg >= 1 && nehezseg <= 3)
-    {
-        return Random.Shared.Next(1, 6);
-    }
-    else if (nehezseg >= 4 && nehezseg <= 6)
-    {
-        return Random.Shared.Next(6, 13);
-    }
-    else
-    {
-        return Random.Shared.Next(20, 31);
-    }
-}
-//---------------------------------------------------------------
-
-
-
-
-//---------------------------------------------------------------
-int task_xp_szamitas(int nehezseg)
-{
-    int xp;
-    if (nehezseg >= 1 && nehezseg <= 3)
-    {
-        return Random.Shared.Next(5, 11);
-    }
-    else if (nehezseg >= 4 && nehezseg <= 6)
-    {
-        return Random.Shared.Next(15, 26);
-    }
-    else
-    {
-        return Random.Shared.Next(35, 51);
-    }
-}
-//---------------------------------------------------------------
-
-
-
-
-//---------------------------------------------------------------
-void task_felvetele_write(string felhasznalo, List<Task> taskok)
-{
-    File.WriteAllText($"../Fileok/{felhasznalo}/player_tasks.csv", "id;nev;nehezseg;xp;gold\n");
-
-
-    foreach (Task s in taskok)
-    {
-        File.AppendAllText($"../Fileok/{felhasznalo}/player_tasks.csv",
-        $"{s.id};{s.Nev};{s.Nehezseg};{s.xp};{s.gold}\n");
-    }
-
-
-}
-//---------------------------------------------------------------
-
-
 
 
 //---------------------------------------------------------------
 void task_felvetele(string felhasznalo, List<Task> taskok)
 {
+
     bool vegigment = false;
     while (!vegigment)
     {
@@ -475,11 +397,11 @@ void task_felvetele(string felhasznalo, List<Task> taskok)
         }
 
 
-        foreach (Task s in taskok)
+        foreach (Task task in taskok)
         {
-            if (s.id == v)
+            if (task.id == v)
             {
-                if (!s.Nev.Contains("-"))
+                if (!task.Nev.Contains("-"))
                 {
                     Console.Clear();
                     Console.WriteLine("A slot már foglalt. Válassz egy másikat");
@@ -493,7 +415,7 @@ void task_felvetele(string felhasznalo, List<Task> taskok)
                         string task_nev = Console.ReadLine();
                         while (task_nev.Contains("-"))
                         {
-                            Console.WriteLine("A task neve nem tartalmazhat '-'t (vesszőt)");
+                            Console.WriteLine("A task neve nem tartalmazhat '-'t (kötőjelet)");
                             task_nev = Console.ReadLine();
                         }
 
@@ -509,12 +431,9 @@ void task_felvetele(string felhasznalo, List<Task> taskok)
                         }
                         try
                         {
-                            s.Nev = task_nev;
-                            s.Nehezseg = int_task_nehezseg;
-                            s.gold = task_gold_szamitas(int_task_nehezseg);
-                            s.xp = task_xp_szamitas(int_task_nehezseg);
+                            task.Felvetel(task_nev, int_task_nehezseg);
                             vegigment = true;
-                            task_felvetele_write(felhasznalo, taskok);
+                            Task.Mentes(felhasznalo, taskok);
                             break;
                         }
                         catch (ArgumentException ex)
@@ -532,81 +451,21 @@ void task_felvetele(string felhasznalo, List<Task> taskok)
 //---------------------------------------------------------------
 
 
-
-
-//---------------------------------------------------------------
-void task_listazas(List<Task> taskok)
-{
-    Console.WriteLine("Task sorszáma - Neve - Nehézségi fokozata - XP jutalom - Gold jutalom");
-    foreach (Task s in taskok)
-    {
-        if (s.Nev == "-")
-        {
-            Console.WriteLine($"{s.id} - üres task slot");
-        }
-        else
-        {
-            Console.WriteLine($"{s.id} - {s.Nev} - {s.Nehezseg} - {s.xp} - {s.gold}");
-        }
-    }
-}
-//---------------------------------------------------------------
-
-
-
-
-//---------------------------------------------------------------
-void xp_gold_adding(string felhasznalo, int pluszXp, int pluszGold)
-{
-    string statPath = $"../Fileok/{felhasznalo}/player_stats.csv";
-    string[] sorok = File.ReadAllLines(statPath);
-
-
-    if (sorok.Length > 1)
-    {
-        string[] adatok = sorok[1].Split(';');
-
-
-        // xp;gold;felvett_fegyver;felvett_pancel;megcsinalt_taskok
-
-
-        int jelenlegixp = int.Parse(adatok[0]) + pluszXp;
-        int jelenlegigold = int.Parse(adatok[1]) + pluszGold;
-        int jelenlegitaskok = int.Parse(adatok[4]) + 1;
-
-
-        adatok[0] = jelenlegixp.ToString();
-        adatok[1] = jelenlegigold.ToString();
-        adatok[4] = jelenlegitaskok.ToString();
-
-
-        string osszerakottSor = "";
-        for (int i = 0; i < adatok.Length; i++)
-        {
-            osszerakottSor += adatok[i];
-
-            if (i < adatok.Length - 1)
-            {
-                osszerakottSor += ";";
-            }
-        }
-
-
-        sorok[1] = osszerakottSor;
-        File.WriteAllLines(statPath, sorok);
-    }
-}
-//---------------------------------------------------------------
-
-
-
-
 //---------------------------------------------------------------
 void task_teljesitese(string felhasznalo, List<Task> taskok)
 {
+
+    if (felvetel_limit_check(felhasznalo))
+    {
+        Console.WriteLine("Elérted a napi task limitet! Gyere vissza holnap");
+        return;
+    }
+
     Console.WriteLine("Kilépés a menübe (0)");
     Console.WriteLine();
-    task_listazas(taskok);
+
+    Task.Listazas(taskok);
+
     Console.WriteLine();
     Console.WriteLine("Melyik sorszamu taskot csinaltad meg? (1-9)");
     string valasztas = Console.ReadLine();
@@ -623,49 +482,40 @@ void task_teljesitese(string felhasznalo, List<Task> taskok)
     }
 
 
-    foreach (Task s in taskok)
+    foreach (Task task in taskok)
     {
-        if (s.id == v)
+        if (task.id == v)
         {
-            if (s.Nev == "-")
+            if (task.Nev == "-")
             {
                 Console.Clear();
                 Console.WriteLine("Ez üres");
                 return;
             }
 
+            string nev = task.Nev;
+            int nehezseg = task.Nehezseg;
+            int xp = task.xp;
+            int gold = task.gold;
 
+            Player p = Player.Peldanyositas(felhasznalo);
+            task.Teljesites(p);
+            p.Mentes(felhasznalo);
+            Task.Mentes(felhasznalo, taskok);
 
-            xp_gold_adding(felhasznalo, s.xp, s.gold);
-
+            File.AppendAllText($"../Fileok/{felhasznalo}/player_task_archivum.csv", $"{DateOnly.FromDateTime(DateTime.Today)};{nev};{nehezseg}\n");
 
             Console.Clear();
             Console.WriteLine($"Gratulalok, hogy megcsinaltad!");
-            Console.WriteLine($"Kaptál {s.xp} XP-t és {s.gold} Aranyat!");
+            Console.WriteLine($"Kaptál {xp} XP-t és {gold} Aranyat!");
             Console.WriteLine();
             Console.WriteLine("Nyomj Entert a kilepeshez: ");
             Console.ReadLine();
             Console.Clear();
-
-            s.Nev = "-";
-            s.Nehezseg = 1;
-            s.xp = 0;
-            s.gold = 0;
-
-            task_felvetele_write(felhasznalo, taskok);
             return;
         }
     }
 }
-
-
-
-
-//---------------------------------------------------------------
-
-
-
-
 //---------------------------------------------------------------
 while (true)
 {

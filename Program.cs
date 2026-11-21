@@ -1,5 +1,6 @@
 ﻿
 //---------------------------------------------------------------
+
 Directory.CreateDirectory("../Fileok");
 File.AppendAllText("../Fileok/regisztraciok.txt", "");
 //---------------------------------------------------------------
@@ -18,6 +19,19 @@ bool startup_check(string ertek)
     return true;
 }
 //---------------------------------------------------------------
+
+List<Item> Items = new List<Item>();
+
+foreach (string sor in File.ReadLines("weapons.csv").Skip(1))
+{
+    string[] adatok = sor.Trim().Split(";");
+    Items.Add(new Weapon(int.Parse(adatok[0]), adatok[1], adatok[2], int.Parse(adatok[3])));
+}
+foreach (string sor in File.ReadLines("armor.csv").Skip(1))
+{
+    string[] adatok = sor.Trim().Split(";");
+    Items.Add(new Armor(int.Parse(adatok[0]), adatok[1], adatok[2], int.Parse(adatok[3])));
+}
 
 //---------------------------------------------------------------
 void startup()
@@ -50,8 +64,6 @@ void startup()
     {
         exit();
     }
-
-
 }
 //---------------------------------------------------------------
 
@@ -207,7 +219,7 @@ void login()
 
 bool main_valasztas_check(string ertek)
 {
-    if (ertek != "1" && ertek != "2" && ertek != "3" && ertek != "4" && ertek != "5" && ertek != "6")
+    if (ertek != "1" && ertek != "2" && ertek != "3" && ertek != "4" && ertek != "5" && ertek != "6" && ertek != "7" && ertek != "8")
     {
         return false;
     }
@@ -241,6 +253,155 @@ void player_stat_kiiratas(string felhasznalo)
     Console.ReadLine();
     Console.Clear();
 }
+//---------------------------------------------------------------
+
+void inventory_kezelese(string felhasznalo, List<Item> items)
+{
+    Console.Clear();
+    Console.WriteLine("Kilépés a menübe (0)");
+    Console.WriteLine();
+    Console.WriteLine("Az inventoryd: ");
+
+    foreach (string s in File.ReadLines($"../Fileok/{felhasznalo}/player_inventory.csv").Skip(1))
+    {
+        int item_id = int.Parse(s.Trim());
+
+        foreach (Item item in items)
+        {
+            if (item_id == item.id)
+            {
+                if (item is Weapon weapon)
+                {
+                    Console.WriteLine($"{weapon.nev} ({weapon.ritkasag}) - Sebzés bónusz: {weapon.atkbonusz}");
+                }
+
+                if (item is Armor armor)
+                {
+                    Console.WriteLine($"{armor.nev} ({armor.ritkasag}) - Védelem bónusz: {armor.defbonusz}");
+                }
+            }
+        }
+    }
+
+    Console.WriteLine();
+    Console.WriteLine("Fegyver felvétele (1) | Páncél felvétele (2) | Fegyver levétele (3) | Páncél levétele (4) |");
+    string valasztas = Console.ReadLine();
+    kilepes_check_main_menu(valasztas, felhasznalo);
+    while (valasztas != "1" && valasztas != "2" && valasztas != "3" && valasztas != "4")
+    {
+        Console.WriteLine("Az egyik opciót válaszd ki! Fegyver felvétele (1) | Páncél felvétele (2) | Fegyver levétele (3) | Páncél levétele (4) | Kilépés a menübe (0)");
+        valasztas = Console.ReadLine();
+        kilepes_check_main_menu(valasztas, felhasznalo);
+    }
+
+    if (valasztas == "1")
+    {
+        Console.Clear();
+        Console.WriteLine("Kilépés a menübe (0)");
+        Console.WriteLine();
+
+        List<string> fegyvereid = new List<string>();
+        foreach (string weaponid in File.ReadLines($"../Fileok/{felhasznalo}/player_inventory.csv").Skip(1))
+        {
+            int itemid_weapon = int.Parse(weaponid.Trim());
+
+            foreach (Item item in Items)
+            {
+                if (item is Weapon weapon && itemid_weapon == item.id)
+                {
+                    fegyvereid.Add(weapon.id.ToString());
+                    Console.WriteLine($"{weapon.id} - {weapon.nev} ({weapon.ritkasag}) - Sebzés bónusz: {weapon.atkbonusz}");
+                }
+            }
+        }
+        Console.WriteLine();
+
+        Console.WriteLine("Melyik sorszámú fegyvert szeretnéd felvenni?");
+        string valasztas_weapon = Console.ReadLine();
+        kilepes_check_main_menu(valasztas_weapon, felhasznalo);
+
+        while (!fegyvereid.Contains(valasztas_weapon))
+        {
+            Console.WriteLine("Nincs ilyen sorszámú fegyvered!");
+            valasztas_weapon = Console.ReadLine();
+            kilepes_check_main_menu(valasztas_weapon, felhasznalo);
+        }
+
+        int valasztas_weapon_int = int.Parse(valasztas_weapon);
+
+        Player p = Player.Peldanyositas(felhasznalo);
+        p.felvett_fegyver = valasztas_weapon_int;
+        p.Mentes(felhasznalo);
+
+        Console.Clear();
+        Console.WriteLine("Sikeresen felvetted!");
+    }
+
+    if (valasztas == "2")
+    {
+        Console.Clear();
+        Console.WriteLine("Kilépés a menübe (0)");
+        Console.WriteLine();
+
+        List<string> panceljaid = new List<string>();
+        foreach (string armorid in File.ReadLines($"../Fileok/{felhasznalo}/player_inventory.csv").Skip(1))
+        {
+            int itemid_armor = int.Parse(armorid.Trim());
+
+            foreach (Item item in Items)
+            {
+                if (item is Armor armor && itemid_armor == item.id)
+                {
+                    panceljaid.Add(armor.id.ToString());
+                    Console.WriteLine($"{armor.id} - {armor.nev} ({armor.ritkasag}) - Védelem bónusz: {armor.defbonusz}");
+                }
+            }
+        }
+        Console.WriteLine();
+
+        Console.WriteLine("Melyik sorszámú fegyvert szeretnéd felvenni?");
+        string valasztas_armor = Console.ReadLine();
+        kilepes_check_main_menu(valasztas_armor, felhasznalo);
+
+        while (!panceljaid.Contains(valasztas_armor))
+        {
+            Console.WriteLine("Nincs ilyen sorszámú fegyvered!");
+            valasztas_armor = Console.ReadLine();
+            kilepes_check_main_menu(valasztas_armor, felhasznalo);
+        }
+
+        int valasztas_armor_int = int.Parse(valasztas_armor);
+
+        Player p = Player.Peldanyositas(felhasznalo);
+        p.felvett_pancel = valasztas_armor_int;
+        p.Mentes(felhasznalo);
+
+        Console.Clear();
+        Console.WriteLine("Sikeresen felvetted!");
+    }
+
+    if (valasztas == "3")
+    {
+        Player p = Player.Peldanyositas(felhasznalo);
+        p.felvett_fegyver = 0;
+        p.Mentes(felhasznalo);
+
+        Console.Clear();
+        Console.WriteLine("Sikeresen levetted!");
+    }
+
+    if (valasztas == "4")
+    {
+        Player p = Player.Peldanyositas(felhasznalo);
+        p.felvett_pancel = 0;
+        p.Mentes(felhasznalo);
+
+        Console.Clear();
+        Console.WriteLine("Sikeresen levetted!");
+    }
+}
+//---------------------------------------------------------------
+
 
 
 //---------------------------------------------------------------
@@ -256,7 +417,9 @@ void main_menu(string felhasznalo)
         Console.WriteLine("3. Profil statok megnézése (XP, Level)");
         Console.WriteLine("4. Task teljesítése");
         Console.WriteLine("5. Task törlése");
-        Console.WriteLine("6. Kijelentkezés");
+        Console.WriteLine("6. Inventory kezelése");
+        Console.WriteLine("7. Lootbox nyitása");
+        Console.WriteLine("8. Kijelentkezés");
 
 
         string valasztas = Console.ReadLine();
@@ -296,6 +459,14 @@ void main_menu(string felhasznalo)
         }
         else if (valasztas == "6")
         {
+            inventory_kezelese(felhasznalo, Items);
+        }
+        else if (valasztas == "7")
+        {
+            
+        }
+        else if (valasztas == "8")
+        {
             Console.Clear();
             Console.WriteLine("Sikeres kijelentkezes!");
             startup();
@@ -324,6 +495,7 @@ void task_torlese(string felhasznalo, List<Task> taskok)
     {
         Console.WriteLine("Helytelen, irj be egy szamot 1-9-ig:");
         valasztas = Console.ReadLine();
+        kilepes_check_main_menu(valasztas, felhasznalo);
     }
 
     foreach (Task s in taskok)
@@ -394,6 +566,7 @@ void task_felvetele(string felhasznalo, List<Task> taskok)
         {
             Console.WriteLine("Számot írj be 1-9-ig");
             valasztas = Console.ReadLine();
+            kilepes_check_main_menu(valasztas, felhasznalo);
         }
 
 
@@ -479,6 +652,7 @@ void task_teljesitese(string felhasznalo, List<Task> taskok)
     {
         Console.WriteLine("Helytelen, irj be egy szamot 1-9-ig:");
         valasztas = Console.ReadLine();
+        kilepes_check_main_menu(valasztas, felhasznalo);
     }
 
 

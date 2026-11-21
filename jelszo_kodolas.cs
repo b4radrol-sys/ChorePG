@@ -1,6 +1,6 @@
 ﻿using System.Security.Cryptography;
 
-class JelszoKoder
+public class JelszoKoder
 {
     public string Kodolas(string password)
     {

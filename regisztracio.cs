@@ -1,4 +1,4 @@
-﻿class Regisztracio
+﻿public class Regisztracio
 {
     private string nev;
     private string jelszo;

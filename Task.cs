@@ -1,4 +1,4 @@
-﻿class Task
+﻿public class Task
 {
     public int id;
     private string nev;

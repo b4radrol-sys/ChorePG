@@ -1,4 +1,4 @@
-﻿class Player
+﻿public class Player
 {
     public int xp { get; set; }
     public int gold { get; set; }
@@ -39,13 +39,38 @@
         megcsinalt_taskok++;
     }
 
+    public string fegyver_kiszamitas(string path)
+    {
+        foreach (string x in File.ReadLines(path).Skip(1))
+        {
+            string[] adatok = x.Trim().Split(";");
+            if (int.Parse(adatok[0]) == felvett_fegyver)
+            {
+                return adatok[1];
+            }
+        }
+        return "Nincs felvéve fegyver!";
+    }
+
+    public string armor_kiszamitas(string path)
+    {
+        foreach (string x in File.ReadLines(path).Skip(1))
+        {
+            string[] adatok = x.Trim().Split(";");
+            if (int.Parse(adatok[0]) == felvett_pancel)
+            {
+                return adatok[1];
+            }
+        }
+        return "Nincs felvéve páncél!";
+    }
+
     public void player_stat_kiiratas()
     {
         Console.WriteLine($"xp: {xp}");
         Console.WriteLine($"gold: {gold}");
-        Console.WriteLine($"Felvett fegyver: {felvett_fegyver}");
-        Console.WriteLine($"Felvett páncél: {felvett_pancel}");
+        Console.WriteLine($"Felvett fegyver: {fegyver_kiszamitas("weapons.csv")}");
+        Console.WriteLine($"Felvett páncél: {armor_kiszamitas("armor.csv")}");
         Console.WriteLine($"Megcsinált taskok: {megcsinalt_taskok}");
     }
-
 }

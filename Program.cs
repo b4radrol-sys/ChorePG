@@ -1,7 +1,9 @@
 ﻿
 //---------------------------------------------------------------
 
+using System.ComponentModel.Design;
 using System.Numerics;
+using System.Runtime.InteropServices;
 
 Directory.CreateDirectory("../Fileok");
 File.AppendAllText("../Fileok/regisztraciok.txt", "");
@@ -363,13 +365,13 @@ void inventory_kezelese(string felhasznalo, List<Item> items)
         }
         Console.WriteLine();
 
-        Console.Write("Melyik sorszámú fegyvert szeretnéd felvenni?: ");
+        Console.Write("Melyik sorszámú a armort szeretnéd felvenni?: ");
         string valasztas_armor = Console.ReadLine();
         kilepes_check_main_menu(valasztas_armor, felhasznalo);
 
         while (!panceljaid.Contains(valasztas_armor))
         {
-            Console.WriteLine("Nincs ilyen sorszámú fegyvered!");
+            Console.WriteLine("Nincs ilyen sorszámú armorod!");
             valasztas_armor = Console.ReadLine();
             kilepes_check_main_menu(valasztas_armor, felhasznalo);
         }
@@ -406,7 +408,239 @@ void inventory_kezelese(string felhasznalo, List<Item> items)
 }
 //---------------------------------------------------------------
 
+void lootbox_start(string felhasznalo, List<Item> Items)
+{
+    Console.Clear();
 
+    Player p = Player.Peldanyositas(felhasznalo);
+    Console.WriteLine($"Egyenleged: {p.gold} gold");
+
+    Console.WriteLine("---Kilépés a menübe (0)---");
+    Console.WriteLine("Elérhető lootboxok:");
+    Console.WriteLine();
+
+    if (p.xp >= 150 && p.xp < 400)
+    {
+        Console.WriteLine("(1) Bronz lootbox - 20 gold");
+        Console.WriteLine("(2) Ezüst lootbox - 60 gold");
+    }
+    else if (p.xp >= 400)
+    {
+        Console.WriteLine("(1) Bronz lootbox - 20 gold");
+        Console.WriteLine("(2) Ezüst lootbox - 60 gold");
+        Console.WriteLine("(3) Arany lootbox - 150 gold");
+    }
+    else
+    {
+        Console.WriteLine("(1) Bronz lootbox - 20 gold");
+    }
+
+    string valasztas = Console.ReadLine();
+    kilepes_check_main_menu(valasztas, felhasznalo);
+
+    if (p.xp >= 150 && p.xp < 400)
+    {
+        while (valasztas != "1" && valasztas != "2")
+        {
+            Console.WriteLine("Csak az elérhető lootbox(ok) sorszámát választhatod!");
+            valasztas = Console.ReadLine();
+            kilepes_check_main_menu(valasztas, felhasznalo);
+        }
+    }
+    else if (p.xp >= 400)
+    {
+        while (valasztas != "1" && valasztas != "2" && valasztas != "3")
+        {
+            Console.WriteLine("Csak az elérhető lootbox(ok) sorszámát választhatod!");
+            valasztas = Console.ReadLine();
+            kilepes_check_main_menu(valasztas, felhasznalo);
+        }
+    }
+    else
+    {
+        while (valasztas != "1")
+        {
+            Console.WriteLine("Csak az elérhető lootbox(ok) sorszámát választhatod!");
+            valasztas = Console.ReadLine();
+            kilepes_check_main_menu(valasztas, felhasznalo);
+        }
+    }
+
+    List<Item> elerhetoitemek = Items;
+
+    foreach (string s in File.ReadLines($"../Fileok/{felhasznalo}/player_inventory.csv").Skip(1))
+    {
+        int item_id = int.Parse(s.Trim());
+        elerhetoitemek.RemoveAll((Item i) => i.id == item_id);
+
+    }
+
+    List<int> common_items = new List<int>();
+    List<int> uncommon_items = new List<int>();
+    List<int> rare_items = new List<int>();
+    List<int> epic_items = new List<int>();
+    List<int> legendary_items = new List<int>();
+    List<int> mythic_items = new List<int>();
+
+    foreach (Item i in elerhetoitemek)
+    {
+        if (i.ritkasag == "common")
+        {
+            common_items.Add(i.id);
+        }
+        else if (i.ritkasag == "uncommon")
+        {
+            uncommon_items.Add(i.id);
+        }
+        else if (i.ritkasag == "rare")
+        {
+            rare_items.Add(i.id);
+        }
+        else if (i.ritkasag == "epic")
+        {
+            epic_items.Add(i.id);
+        }
+        else if (i.ritkasag == "legendary")
+        {
+            legendary_items.Add(i.id);
+        }
+        else if (i.ritkasag == "mythic")
+        {
+            mythic_items.Add(i.id);
+        }
+    }
+
+    if (valasztas == "1")
+    {
+        if (p.gold < 20)
+        {
+            Console.Clear();
+            Console.WriteLine("Nincs elég büdzséd");
+            return;
+        }
+
+        if (Random.Shared.Next(1, 100) <= 30)
+        {
+            if (uncommon_items.Count == 0)
+            {
+                Console.WriteLine("Már megszerezted az összes uncommon itemet! Nem került levonásra az egyenleged.");
+                return;
+            }
+            int pick_uncommon = uncommon_items[Random.Shared.Next(uncommon_items.Count)];
+            lootbox_mentes(felhasznalo, Items, pick_uncommon);
+        }
+        else
+        {
+            if (common_items.Count == 0)
+            {
+                Console.WriteLine("Már megszerezted az összes common itemet! Nem került levonásra az egyenleged.");
+                return;
+            }
+            int pick_common = common_items[Random.Shared.Next(common_items.Count)];
+            lootbox_mentes(felhasznalo, Items, pick_common);
+
+        }
+        p.gold = p.gold - 20;
+        p.Mentes(felhasznalo);
+    }
+
+    if (valasztas == "2")
+    {
+        if (p.gold < 60)
+        {
+            Console.Clear();
+            Console.WriteLine("Nincs elég büdzséd");
+            return;
+        }
+
+        if (Random.Shared.Next(1, 100) <= 20)
+        {
+            if (rare_items.Count == 0)
+            {
+                Console.WriteLine("Már megszerezted az összes rare itemet! Nem került levonásra az egyenleged.");
+                return;
+            }
+            int pick_rare = rare_items[Random.Shared.Next(rare_items.Count)];
+            lootbox_mentes(felhasznalo, Items, pick_rare);
+        }
+        else
+        {
+            if (uncommon_items.Count == 0)
+            {
+                Console.WriteLine("Már megszerezted az összes uncommon itemet! Nem került levonásra az egyenleged.");
+                return;
+            }
+            int pick_uncommon = uncommon_items[Random.Shared.Next(uncommon_items.Count)];
+            lootbox_mentes(felhasznalo, Items, pick_uncommon);
+        }
+        p.gold = p.gold - 60;
+        p.Mentes(felhasznalo);
+    }
+
+    if (valasztas == "3")
+    {
+        if (p.gold < 150)
+        {
+            Console.Clear();
+            Console.WriteLine("Nincs elég büdzséd");
+            return;
+        }
+        int rnd = Random.Shared.Next(1, 100);
+        if (rnd >= 1 && rnd <= 5)
+        {
+            if (legendary_items.Count == 0)
+            {
+                Console.WriteLine("Már megszerezted az összes legendary itemet! Nem került levonásra az egyenleged.");
+                return;
+            }
+            int pick_legendary = legendary_items[Random.Shared.Next(legendary_items.Count)];
+            lootbox_mentes(felhasznalo, Items, pick_legendary);
+        }
+        else if (rnd >= 6 && rnd <= 26)
+        {
+            if (epic_items.Count == 0)
+            {
+                Console.WriteLine("Már megszerezted az összes epic itemet! Nem került levonásra az egyenleged.");
+                return;
+            }
+            int pick_epic = epic_items[Random.Shared.Next(epic_items.Count)];
+            lootbox_mentes(felhasznalo, Items, pick_epic);
+        }
+        else
+        {
+            if (rare_items.Count == 0)
+            {
+                Console.WriteLine("Már megszerezted az összes rare itemet! Nem került levonásra az egyenleged.");
+                return;
+            }
+            int pick_rare = rare_items[Random.Shared.Next(rare_items.Count)];
+            lootbox_mentes(felhasznalo, Items, pick_rare);
+        }
+        p.gold = p.gold - 150;
+        p.Mentes(felhasznalo);
+    }
+}
+
+void lootbox_mentes(string felhasznalo, List<Item> Items, int pick)
+{
+        File.AppendAllText($"../Fileok/{felhasznalo}/player_inventory.csv", pick.ToString() + "\n");
+
+        foreach (Item i in Items)
+        {
+            if (i.id == pick)
+            {
+                Console.Clear();
+                Console.WriteLine($"Nyitottál egy {i.nev}-t ({i.ritkasag})");
+            }
+        }
+}
+//---------------------------------------------------------------
+
+void bossfight(string felhasznalo)
+{
+    Console.WriteLine("!!! A BOSSFIGHT SZERENCSE ALAPON MŰKÖDIK! VESZTÉSNÉL JELENTŐS LOOT VESZTÉS");
+    // ...
+}
 
 //---------------------------------------------------------------
 void main_menu(string felhasznalo)
@@ -469,39 +703,7 @@ void main_menu(string felhasznalo)
         }
         else if (valasztas == "7")
         {
-            //daniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii ezt ird at
-            Console.Clear();
-
-            if (Items.Count == 0)
-            {
-                Console.WriteLine("Nincs elérhető tárgy a lootboxban.");
-            }
-            else
-            {
-                Random random = new();
-                Item jutalom = Items[random.Next(Items.Count)];
-
-                File.AppendAllText(
-                    $"../Fileok/{felhasznalo}/player_inventory.csv",
-                    $"{jutalom.id}{Environment.NewLine}");
-
-                Console.WriteLine("--- Lootbox nyitása ---");
-                if (jutalom is Weapon weapon)
-                {
-                    Console.WriteLine($"Fegyvert kaptál: {weapon.nev} ({weapon.ritkasag})");
-                    Console.WriteLine($"Sebzés bónusz: {weapon.atkbonusz}");
-                }
-                else if (jutalom is Armor armor)
-                {
-                    Console.WriteLine($"Páncélt kaptál: {armor.nev} ({armor.ritkasag})");
-                    Console.WriteLine($"Védelem bónusz: {armor.defbonusz}");
-                }
-            }
-
-            Console.WriteLine();
-            Console.Write("Nyomj Entert a folytatáshoz...");
-            Console.ReadLine();
-            //daniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii eddig
+            lootbox_start(felhasznalo, Items);
         }
         else if (valasztas == "8")
         {

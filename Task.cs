@@ -63,7 +63,9 @@
     }
     public static void Listazas(List<Task> taskok)
     {
-        Console.WriteLine("Task sorszáma - Neve - Nehézségi fokozata - XP jutalom - Gold jutalom");
+        Console.WriteLine(" =========================================================================");
+        Console.WriteLine("---Task sorszáma - Neve - Nehézségi fokozata - XP jutalom - Gold jutalom---");
+        Console.WriteLine(" =========================================================================");
         foreach (Task s in taskok)
         {
             if (s.Nev == "-")
@@ -75,6 +77,7 @@
                 Console.WriteLine($"{s.id} - {s.Nev} - {s.Nehezseg} - {s.xp} - {s.gold}");
             }
         }
+        Console.WriteLine(" =========================================================================");
     }
 
     public static void Mentes(string felhasznalo, List<Task> taskok)

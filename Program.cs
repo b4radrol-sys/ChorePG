@@ -1,6 +1,8 @@
 ﻿
 //---------------------------------------------------------------
 
+using System.Numerics;
+
 Directory.CreateDirectory("../Fileok");
 File.AppendAllText("../Fileok/regisztraciok.txt", "");
 //---------------------------------------------------------------
@@ -39,6 +41,7 @@ void startup()
     Console.WriteLine("        ----Üdvözöljük!----");
     Console.Write("Bejelentkezés (1) | Regisztrálás (2) | Kilépés (3): ");
     string visszaadas = Console.ReadLine();
+    Console.WriteLine();
 
 
     while (!startup_check(visszaadas))
@@ -130,7 +133,8 @@ void register()
         {
             if (sor.Split(":")[0] == user)
             {
-                throw new ArgumentException("Már létezik ilyen nevű felhasználó!");
+                throw new ArgumentException("---Már létezik ilyen nevű felhasználó!---");
+                Console.WriteLine();
             }
         }
 
@@ -258,7 +262,7 @@ void player_stat_kiiratas(string felhasznalo)
 void inventory_kezelese(string felhasznalo, List<Item> items)
 {
     Console.Clear();
-    Console.WriteLine("Kilépés a menübe (0)");
+    Console.WriteLine("---Kilépés a menübe (0)---");
     Console.WriteLine();
     Console.WriteLine("Az inventoryd: ");
 
@@ -284,12 +288,12 @@ void inventory_kezelese(string felhasznalo, List<Item> items)
     }
 
     Console.WriteLine();
-    Console.WriteLine("Fegyver felvétele (1) | Páncél felvétele (2) | Fegyver levétele (3) | Páncél levétele (4) |");
+    Console.Write("Fegyver felvétele (1) | Páncél felvétele (2) | Fegyver levétele (3) | Páncél levétele (4) |: ");
     string valasztas = Console.ReadLine();
     kilepes_check_main_menu(valasztas, felhasznalo);
     while (valasztas != "1" && valasztas != "2" && valasztas != "3" && valasztas != "4")
     {
-        Console.WriteLine("Az egyik opciót válaszd ki! Fegyver felvétele (1) | Páncél felvétele (2) | Fegyver levétele (3) | Páncél levétele (4) | Kilépés a menübe (0)");
+        Console.Write("Az egyik opciót válaszd ki! Fegyver felvétele (1) | Páncél felvétele (2) | Fegyver levétele (3) | Páncél levétele (4) | Kilépés a menübe (0): ");
         valasztas = Console.ReadLine();
         kilepes_check_main_menu(valasztas, felhasznalo);
     }
@@ -297,7 +301,7 @@ void inventory_kezelese(string felhasznalo, List<Item> items)
     if (valasztas == "1")
     {
         Console.Clear();
-        Console.WriteLine("Kilépés a menübe (0)");
+        Console.WriteLine("---Kilépés a menübe (0)---");
         Console.WriteLine();
 
         List<string> fegyvereid = new List<string>();
@@ -316,13 +320,13 @@ void inventory_kezelese(string felhasznalo, List<Item> items)
         }
         Console.WriteLine();
 
-        Console.WriteLine("Melyik sorszámú fegyvert szeretnéd felvenni?");
+        Console.Write("Melyik sorszámú fegyvert szeretnéd felvenni?: ");
         string valasztas_weapon = Console.ReadLine();
         kilepes_check_main_menu(valasztas_weapon, felhasznalo);
 
         while (!fegyvereid.Contains(valasztas_weapon))
         {
-            Console.WriteLine("Nincs ilyen sorszámú fegyvered!");
+            Console.Write("Nincs ilyen sorszámú fegyvered!: ");
             valasztas_weapon = Console.ReadLine();
             kilepes_check_main_menu(valasztas_weapon, felhasznalo);
         }
@@ -359,7 +363,7 @@ void inventory_kezelese(string felhasznalo, List<Item> items)
         }
         Console.WriteLine();
 
-        Console.WriteLine("Melyik sorszámú fegyvert szeretnéd felvenni?");
+        Console.Write("Melyik sorszámú fegyvert szeretnéd felvenni?: ");
         string valasztas_armor = Console.ReadLine();
         kilepes_check_main_menu(valasztas_armor, felhasznalo);
 
@@ -420,6 +424,7 @@ void main_menu(string felhasznalo)
         Console.WriteLine("6. Inventory kezelése");
         Console.WriteLine("7. Lootbox nyitása");
         Console.WriteLine("8. Kijelentkezés");
+        Console.Write("Opció: ");
 
 
         string valasztas = Console.ReadLine();
@@ -427,7 +432,7 @@ void main_menu(string felhasznalo)
 
         while (!main_valasztas_check(valasztas))
         {
-            Console.WriteLine("Helytelen! Válaszd ki az egyik opciót (1-6)");
+            Console.Write("Helytelen! Válaszd ki az egyik opciót (1-6): ");
             valasztas = Console.ReadLine();
         }
 
@@ -463,12 +468,12 @@ void main_menu(string felhasznalo)
         }
         else if (valasztas == "7")
         {
-            
+
         }
         else if (valasztas == "8")
         {
             Console.Clear();
-            Console.WriteLine("Sikeres kijelentkezes!");
+            Console.WriteLine("---Sikeres kijelentkezes!---");
             startup();
             break;
         }
@@ -478,12 +483,12 @@ void main_menu(string felhasznalo)
 
 void task_torlese(string felhasznalo, List<Task> taskok)
 {
-
-    Console.WriteLine("Kilépés a menübe (0)");
+    Console.WriteLine();
+    Console.WriteLine("---Kilépés a menübe (0)---");
     Console.WriteLine();
     Task.Listazas(taskok);
     Console.WriteLine();
-    Console.WriteLine("Melyik sorszamu taskot szeretnéd kitörölni? (1-9)");
+    Console.Write("Melyik sorszamu taskot szeretnéd kitörölni? (1-9): ");
     string valasztas = Console.ReadLine();
 
 
@@ -493,7 +498,7 @@ void task_torlese(string felhasznalo, List<Task> taskok)
     int v;
     while (!int.TryParse(valasztas, out v) || v < 1 || v > 9)
     {
-        Console.WriteLine("Helytelen, irj be egy szamot 1-9-ig:");
+        Console.Write("Helytelen, irj be egy szamot 1-9-ig: ");
         valasztas = Console.ReadLine();
         kilepes_check_main_menu(valasztas, felhasznalo);
     }
@@ -551,10 +556,10 @@ void task_felvetele(string felhasznalo, List<Task> taskok)
     bool vegigment = false;
     while (!vegigment)
     {
-
-        Console.WriteLine("Kilépés a menübe(0)");
         Console.WriteLine();
-        Console.WriteLine("Melyik task slotba szeretnéd felvenni a taskot (1-9)");
+        Console.WriteLine("---Kilépés a menübe(0)---");
+        Console.WriteLine();
+        Console.Write("Melyik task slotba szeretnéd felvenni a taskot (1-9): ");
         string valasztas = Console.ReadLine();
 
 
@@ -564,7 +569,7 @@ void task_felvetele(string felhasznalo, List<Task> taskok)
         int v;
         while (!int.TryParse(valasztas, out v) || v < 1 || v > 9)
         {
-            Console.WriteLine("Számot írj be 1-9-ig");
+            Console.WriteLine("Számot írj be 1-9-ig: ");
             valasztas = Console.ReadLine();
             kilepes_check_main_menu(valasztas, felhasznalo);
         }
@@ -584,22 +589,22 @@ void task_felvetele(string felhasznalo, List<Task> taskok)
                 {
                     while (true)
                     {
-                        Console.WriteLine("Add meg a task nevét: ");
+                        Console.Write("Add meg a task nevét: ");
                         string task_nev = Console.ReadLine();
                         while (task_nev.Contains("-"))
                         {
-                            Console.WriteLine("A task neve nem tartalmazhat '-'t (kötőjelet)");
+                            Console.Write("A task neve nem tartalmazhat '-'t (kötőjelet): ");
                             task_nev = Console.ReadLine();
                         }
 
 
                         Console.Clear();
-                        Console.WriteLine("Add meg a task nehézségét! (1-legkönnyebb | 9-legnehezebb)");
+                        Console.Write("Add meg a task nehézségét! (1-legkönnyebb | 9-legnehezebb): ");
                         string task_nehezseg = Console.ReadLine();
                         int int_task_nehezseg;
                         while (!int.TryParse(task_nehezseg, out int_task_nehezseg) || int_task_nehezseg < 1 || int_task_nehezseg > 9)
                         {
-                            Console.WriteLine("A nehézség csak 1 és 9 közötti szám lehet! (1-legkönnyebb | 9-legnehezebb)");
+                            Console.Write("A nehézség csak 1 és 9 közötti szám lehet! (1-legkönnyebb | 9-legnehezebb): ");
                             task_nehezseg = Console.ReadLine();
                         }
                         try
@@ -634,13 +639,14 @@ void task_teljesitese(string felhasznalo, List<Task> taskok)
         return;
     }
 
-    Console.WriteLine("Kilépés a menübe (0)");
+    Console.WriteLine();
+    Console.WriteLine("---Kilépés a menübe (0)---");
     Console.WriteLine();
 
     Task.Listazas(taskok);
 
     Console.WriteLine();
-    Console.WriteLine("Melyik sorszamu taskot csinaltad meg? (1-9)");
+    Console.Write("Melyik sorszamu taskot csinaltad meg? (1-9): ");
     string valasztas = Console.ReadLine();
 
 
@@ -650,7 +656,7 @@ void task_teljesitese(string felhasznalo, List<Task> taskok)
     int v;
     while (!int.TryParse(valasztas, out v) || v < 1 || v > 9)
     {
-        Console.WriteLine("Helytelen, irj be egy szamot 1-9-ig:");
+        Console.WriteLine("Helytelen, irj be egy szamot 1-9-ig: ");
         valasztas = Console.ReadLine();
         kilepes_check_main_menu(valasztas, felhasznalo);
     }

@@ -168,7 +168,7 @@ A fájlok a `../Fileok/<FELHASZNÁLÓNÉV>/` -ban találhatók. Ezeket ne írd �
 
 
 | CSV | Létrejövő fájl |
-|--------|--------------------------------|---------|
+|-----------------------------|----------------------------|
 | `template_player_stats.csv` | `player_stats.csv` |
 | `template_tasks.csv` | `player_tasks.csv`  |
 | `template_task_archivum.csv` | `player_task_archivum.csv` |

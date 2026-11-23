@@ -466,7 +466,7 @@ void lootbox_start(string felhasznalo, List<Item> Items)
         }
     }
 
-    List<Item> elerhetoitemek = Items;
+    List<Item> elerhetoitemek = new(Items);
 
     foreach (string s in File.ReadLines($"../Fileok/{felhasznalo}/player_inventory.csv").Skip(1))
     {
@@ -523,6 +523,7 @@ void lootbox_start(string felhasznalo, List<Item> Items)
         {
             if (uncommon_items.Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("Már megszerezted az összes uncommon itemet! Nem került levonásra az egyenleged.");
                 return;
             }
@@ -533,6 +534,7 @@ void lootbox_start(string felhasznalo, List<Item> Items)
         {
             if (common_items.Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("Már megszerezted az összes common itemet! Nem került levonásra az egyenleged.");
                 return;
             }
@@ -557,6 +559,7 @@ void lootbox_start(string felhasznalo, List<Item> Items)
         {
             if (rare_items.Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("Már megszerezted az összes rare itemet! Nem került levonásra az egyenleged.");
                 return;
             }
@@ -567,6 +570,7 @@ void lootbox_start(string felhasznalo, List<Item> Items)
         {
             if (uncommon_items.Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("Már megszerezted az összes uncommon itemet! Nem került levonásra az egyenleged.");
                 return;
             }
@@ -590,6 +594,7 @@ void lootbox_start(string felhasznalo, List<Item> Items)
         {
             if (legendary_items.Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("Már megszerezted az összes legendary itemet! Nem került levonásra az egyenleged.");
                 return;
             }
@@ -600,6 +605,7 @@ void lootbox_start(string felhasznalo, List<Item> Items)
         {
             if (epic_items.Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("Már megszerezted az összes epic itemet! Nem került levonásra az egyenleged.");
                 return;
             }
@@ -610,6 +616,7 @@ void lootbox_start(string felhasznalo, List<Item> Items)
         {
             if (rare_items.Count == 0)
             {
+                Console.Clear();
                 Console.WriteLine("Már megszerezted az összes rare itemet! Nem került levonásra az egyenleged.");
                 return;
             }

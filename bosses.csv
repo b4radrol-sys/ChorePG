@@ -1,1 +1,10 @@
 id;nev;atk;def;szukseges_xp;arany_jutalom;xp_jutalom
+1;Goblin Főnök;10;5;50;20;40
+2;Sötét Varázsló;18;12;150;50;100
+3;Margit;24;20;220;80;160
+4;Tűzsárkány;35;28;400;150;300
+5;Renalla;45;35;600;250;500
+6;Maliketh;55;40;800;300;650
+7;Tűz Oriás;30;80;850;350;700
+8;Malénia;70;50;999;600;950
+9;Koromfekete Lovag;100;60;1000;750;1000

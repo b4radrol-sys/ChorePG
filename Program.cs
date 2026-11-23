@@ -223,7 +223,7 @@ void login()
 
 bool main_valasztas_check(string ertek)
 {
-    if (ertek != "1" && ertek != "2" && ertek != "3" && ertek != "4" && ertek != "5" && ertek != "6" && ertek != "7" && ertek != "8")
+    if (ertek != "1" && ertek != "2" && ertek != "3" && ertek != "4" && ertek != "5" && ertek != "6" && ertek != "7" && ertek != "8" && ertek != "9")
     {
         return false;
     }
@@ -253,7 +253,7 @@ void player_stat_kiiratas(string felhasznalo)
     player.player_stat_kiiratas();
 
     Console.WriteLine();
-    Console.WriteLine("Nyomj Entert a kilepeshez: ");
+    Console.Write("Nyomj Entert a kilepeshez: ");
     Console.ReadLine();
     Console.Clear();
 }
@@ -423,7 +423,8 @@ void main_menu(string felhasznalo)
         Console.WriteLine("5. Task törlése");
         Console.WriteLine("6. Inventory kezelése");
         Console.WriteLine("7. Lootbox nyitása");
-        Console.WriteLine("8. Kijelentkezés");
+        Console.WriteLine("8. Boss harcolása");
+        Console.WriteLine("9. Kijelentkezés");
         Console.Write("Opció: ");
 
 
@@ -432,7 +433,7 @@ void main_menu(string felhasznalo)
 
         while (!main_valasztas_check(valasztas))
         {
-            Console.Write("Helytelen! Válaszd ki az egyik opciót (1-6): ");
+            Console.Write("Helytelen! Válaszd ki az egyik opciót (1-9): ");
             valasztas = Console.ReadLine();
         }
 
@@ -468,12 +469,51 @@ void main_menu(string felhasznalo)
         }
         else if (valasztas == "7")
         {
+            //daniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii ezt ird at
+            Console.Clear();
 
+            if (Items.Count == 0)
+            {
+                Console.WriteLine("Nincs elérhető tárgy a lootboxban.");
+            }
+            else
+            {
+                Random random = new();
+                Item jutalom = Items[random.Next(Items.Count)];
+
+                File.AppendAllText(
+                    $"../Fileok/{felhasznalo}/player_inventory.csv",
+                    $"{jutalom.id}{Environment.NewLine}");
+
+                Console.WriteLine("--- Lootbox nyitása ---");
+                if (jutalom is Weapon weapon)
+                {
+                    Console.WriteLine($"Fegyvert kaptál: {weapon.nev} ({weapon.ritkasag})");
+                    Console.WriteLine($"Sebzés bónusz: {weapon.atkbonusz}");
+                }
+                else if (jutalom is Armor armor)
+                {
+                    Console.WriteLine($"Páncélt kaptál: {armor.nev} ({armor.ritkasag})");
+                    Console.WriteLine($"Védelem bónusz: {armor.defbonusz}");
+                }
+            }
+
+            Console.WriteLine();
+            Console.Write("Nyomj Entert a folytatáshoz...");
+            Console.ReadLine();
+            //daniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii eddig
         }
         else if (valasztas == "8")
         {
+            //boss oles
+        }
+
+        else if (valasztas == "9")
+        {
             Console.Clear();
-            Console.WriteLine("---Sikeres kijelentkezes!---");
+            Console.WriteLine();
+            Console.WriteLine(" ---Sikeres kijelentkezes!---");
+            Console.WriteLine();
             startup();
             break;
         }
@@ -516,8 +556,10 @@ void task_torlese(string felhasznalo, List<Task> taskok)
 
             s.Torles();
 
+            
             Console.Clear();
-            Console.WriteLine("Sikeres törlés!");
+            Console.WriteLine();
+            Console.WriteLine("---Sikeres törlés!---");
             Task.Mentes(felhasznalo, taskok);
 
             return;
@@ -582,13 +624,15 @@ void task_felvetele(string felhasznalo, List<Task> taskok)
                 if (!task.Nev.Contains("-"))
                 {
                     Console.Clear();
-                    Console.WriteLine("A slot már foglalt. Válassz egy másikat");
+                    Console.WriteLine();
+                    Console.WriteLine("---A slot már foglalt. Válassz egy másikat---");
                     break;
                 }
                 else
                 {
                     while (true)
                     {
+                        Console.WriteLine();
                         Console.Write("Add meg a task nevét: ");
                         string task_nev = Console.ReadLine();
                         while (task_nev.Contains("-"))
@@ -597,7 +641,7 @@ void task_felvetele(string felhasznalo, List<Task> taskok)
                             task_nev = Console.ReadLine();
                         }
 
-
+                        Console.WriteLine();
                         Console.Clear();
                         Console.Write("Add meg a task nehézségét! (1-legkönnyebb | 9-legnehezebb): ");
                         string task_nehezseg = Console.ReadLine();
@@ -689,7 +733,7 @@ void task_teljesitese(string felhasznalo, List<Task> taskok)
             Console.WriteLine($"Gratulalok, hogy megcsinaltad!");
             Console.WriteLine($"Kaptál {xp} XP-t és {gold} Aranyat!");
             Console.WriteLine();
-            Console.WriteLine("Nyomj Entert a kilepeshez: ");
+            Console.Write("Nyomj Entert a kilepeshez: ");
             Console.ReadLine();
             Console.Clear();
             return;

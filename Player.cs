@@ -66,9 +66,40 @@ public class Player
         }
         return "Nincs felvéve páncél!";
     }
+    public int felvett_fegyver_atk(string path)
+    {
+        foreach (string x in File.ReadLines(path).Skip(1))
+        {
+            string[] adatok = x.Trim().Split(";");
+            if (int.Parse(adatok[0]) == felvett_fegyver)
+            {
+                return int.Parse(adatok[3]);
+            }
+        }
+        return 0;
+    }
+
+    public int felvett_armor_def(string path)
+    {
+        foreach (string x in File.ReadLines(path).Skip(1))
+        {
+            string[] adatok = x.Trim().Split(";");
+            if (int.Parse(adatok[0]) == felvett_pancel)
+            {
+                return int.Parse(adatok[3]);
+            }
+        }
+        return 0;
+    }
+
     public int szint_kiszamitas()
     {
-        return xp / 100;
+        return Math.Min(30, xp / 100);
+    }
+
+    public int harciero_kiszamitas()
+    {
+        return 12 + szint_kiszamitas() + 2 * (felvett_fegyver_atk("weapons.csv") + felvett_armor_def("armor.csv"));
     }
     public void player_stat_kiiratas()
     {

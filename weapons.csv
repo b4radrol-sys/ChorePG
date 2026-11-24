@@ -6,8 +6,8 @@ id;nev;ritkasag;atkbonusz
 5;Netherite kard;legendary;20
 6;Sárkány csont kard;epic;16
 7;Holdfény kard;legendary;22
-8;Maszamune;mythic;25
-9;Yamato;mythic;30
+8;Maszamune;legendary;25
+9;Yamato;legendary;30
 10;Rozsdás tőr;common;3
 11;Fa bunkó;common;4
 12;Kovakő balta;common;4
@@ -27,8 +27,8 @@ id;nev;ritkasag;atkbonusz
 26;Sárkányölő;legendary;19
 27;Excalibur;legendary;21
 28;Ragnarök;legendary;23
-29;Kusanagi;mythic;27
-30;Gram;mythic;29
+29;Kusanagi;legendary;27
+30;Gram;legendary;29
 31;Fa dárda;common;3
 32;Kőbalta;common;4
 33;Szöges bunkó;common;5
@@ -46,6 +46,6 @@ id;nev;ritkasag;atkbonusz
 45;Forgó suriken;legendary;20
 46;Végzet pengéje;legendary;21
 47;András haja;legendary;22
-48;Muramasa;mythic;26
-49;Gersits képe;mythic;28
-50;Kádár Stréfa;mythic;30
+48;Muramasa;legendary;26
+49;Gersits képe;legendary;28
+50;Kádár Stréfa;legendary;30

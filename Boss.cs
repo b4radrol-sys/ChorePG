@@ -20,4 +20,10 @@ public class Boss
         this.arany_jutalom = arany_jutalom;
         this.xp_jutalom = xp_jutalom;
     }
+
+
+    public int harciero_kiszamitas()
+    {
+        return atk + def;
+    }
 }

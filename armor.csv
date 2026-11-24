@@ -7,7 +7,7 @@ id;nev;ritkasag;defbonusz
 106;Sárkány csont páncél;epic;14
 107;Árnyékpáncél;legendary;20
 108;T60;legendary;21
-109;Dühöngő farkaspáncél;mythic;25
+109;Dühöngő farkaspáncél;legendary;25
 110;Gyuri nadrágja;common;2
 111;Szőrme mellény;common;3
 112;Kádár sálja;common;3
@@ -26,9 +26,9 @@ id;nev;ritkasag;defbonusz
 125;Vérpáncél;epic;13
 126;Mennyei páncél;legendary;18
 127;Aranyszárnyú páncél;legendary;19
-128;Forgó sötét ingje;mythic;27
-129;Polyák örök pólója;mythic;26
-130;City sisak;mythic;24
+128;Forgó sötét ingje;legendary;27
+129;Polyák örök pólója;legendary;26
+130;City sisak;legendary;24
 131;Tépett köpeny;common;2
 132;Kenderruha;common;3
 133;Fa mellvért;common;4
@@ -46,7 +46,7 @@ id;nev;ritkasag;defbonusz
 145;Csillagpáncél;legendary;18
 146;Fénypáncél;legendary;19
 147;Sötét Király páncélja;legendary;21
-148;Kronosz páncél;mythic;24
-149;Ragnarök mellvért;mythic;26
-150;Világfa páncél;mythic;27
+148;Kronosz páncél;legendary;24
+149;Ragnarök mellvért;legendary;26
+150;Világfa páncél;legendary;27
 151;Tulkán Sketchers;epic;13

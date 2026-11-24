@@ -1,5 +1,6 @@
 ﻿
 //---------------------------------------------------------------
+
 Directory.CreateDirectory("../Fileok");
 File.AppendAllText("../Fileok/regisztraciok.txt", "");
 //---------------------------------------------------------------
@@ -228,7 +229,7 @@ void login()
 
 bool main_valasztas_check(string ertek)
 {
-    if (ertek != "1" && ertek != "2" && ertek != "3" && ertek != "4" && ertek != "5" && ertek != "6" && ertek != "7" && ertek != "8" && ertek != "9")
+    if (ertek != "1" && ertek != "2" && ertek != "3" && ertek != "4" && ertek != "5" && ertek != "6" && ertek != "7" && ertek != "8" && ertek != "9" && ertek != "10")
     {
         return false;
     }
@@ -236,13 +237,14 @@ bool main_valasztas_check(string ertek)
 }
 
 
-void kilepes_check_main_menu(string ertek, string felhasznalo)
+bool kilepes_check_main_menu(string ertek, string felhasznalo)
 {
     if (ertek == "0")
     {
         Console.Clear();
-        main_menu(felhasznalo);
+        return true;
     }
+    return false;
 }
 //---------------------------------------------------------------
 
@@ -294,12 +296,12 @@ void inventory_kezelese(string felhasznalo, List<Item> items)
     Console.WriteLine();
     Console.Write("Fegyver felvétele (1) | Páncél felvétele (2) | Fegyver levétele (3) | Páncél levétele (4) |: ");
     string valasztas = Console.ReadLine();
-    kilepes_check_main_menu(valasztas, felhasznalo);
+    if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; };
     while (valasztas != "1" && valasztas != "2" && valasztas != "3" && valasztas != "4")
     {
         Console.Write("Az egyik opciót válaszd ki! Fegyver felvétele (1) | Páncél felvétele (2) | Fegyver levétele (3) | Páncél levétele (4) | Kilépés a menübe (0): ");
         valasztas = Console.ReadLine();
-        kilepes_check_main_menu(valasztas, felhasznalo);
+        if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; };
     }
 
     if (valasztas == "1")
@@ -326,7 +328,7 @@ void inventory_kezelese(string felhasznalo, List<Item> items)
 
         Console.Write("Melyik sorszámú fegyvert szeretnéd felvenni?: ");
         string valasztas_weapon = Console.ReadLine();
-        kilepes_check_main_menu(valasztas_weapon, felhasznalo);
+        if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; }
 
         while (!fegyvereid.Contains(valasztas_weapon))
         {
@@ -369,13 +371,13 @@ void inventory_kezelese(string felhasznalo, List<Item> items)
 
         Console.Write("Melyik sorszámú a armort szeretnéd felvenni?: ");
         string valasztas_armor = Console.ReadLine();
-        kilepes_check_main_menu(valasztas_armor, felhasznalo);
+        if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; }
 
         while (!panceljaid.Contains(valasztas_armor))
         {
             Console.WriteLine("Nincs ilyen sorszámú armorod!");
             valasztas_armor = Console.ReadLine();
-            kilepes_check_main_menu(valasztas_armor, felhasznalo);
+            if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; }
         }
 
         int valasztas_armor_int = int.Parse(valasztas_armor);
@@ -438,7 +440,7 @@ void lootbox_start(string felhasznalo, List<Item> Items)
     }
 
     string valasztas = Console.ReadLine();
-    kilepes_check_main_menu(valasztas, felhasznalo);
+    if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; };
 
     if (p.xp >= 150 && p.xp < 400)
     {
@@ -446,7 +448,7 @@ void lootbox_start(string felhasznalo, List<Item> Items)
         {
             Console.WriteLine("Csak az elérhető lootbox(ok) sorszámát választhatod!");
             valasztas = Console.ReadLine();
-            kilepes_check_main_menu(valasztas, felhasznalo);
+            if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; }
         }
     }
     else if (p.xp >= 400)
@@ -455,7 +457,7 @@ void lootbox_start(string felhasznalo, List<Item> Items)
         {
             Console.WriteLine("Csak az elérhető lootbox(ok) sorszámát választhatod!");
             valasztas = Console.ReadLine();
-            kilepes_check_main_menu(valasztas, felhasznalo);
+            if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; }
         }
     }
     else
@@ -464,7 +466,7 @@ void lootbox_start(string felhasznalo, List<Item> Items)
         {
             Console.WriteLine("Csak az elérhető lootbox(ok) sorszámát választhatod!");
             valasztas = Console.ReadLine();
-            kilepes_check_main_menu(valasztas, felhasznalo);
+            if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; }
         }
     }
 
@@ -482,7 +484,6 @@ void lootbox_start(string felhasznalo, List<Item> Items)
     List<int> rare_items = new List<int>();
     List<int> epic_items = new List<int>();
     List<int> legendary_items = new List<int>();
-    List<int> mythic_items = new List<int>();
 
     foreach (Item i in elerhetoitemek)
     {
@@ -505,10 +506,6 @@ void lootbox_start(string felhasznalo, List<Item> Items)
         else if (i.ritkasag == "legendary")
         {
             legendary_items.Add(i.id);
-        }
-        else if (i.ritkasag == "mythic")
-        {
-            mythic_items.Add(i.id);
         }
     }
 
@@ -645,35 +642,178 @@ void lootbox_mentes(string felhasznalo, List<Item> Items, int pick)
 }
 //---------------------------------------------------------------
 
+
+
 void bossfight(string felhasznalo)
 {
-    Console.Clear();
-    Console.WriteLine("!!! A BOSSFIGHT SZERENCSE ALAPON MŰKÖDIK! VESZTÉSNÉL JELENTŐS LOOT VESZTÉS");
 
+    Console.Clear();
+    Console.WriteLine("!!! A BOSSFIGHT SZERENCSE ALAPON MŰKÖDIK! VESZTÉSNÉL JELENTŐS LOOT VESZTÉS !!!");
+    Console.WriteLine("Kilépés a menübe (0)");
     Console.WriteLine();
     Console.WriteLine("Elérhető bossok:");
     Console.WriteLine();
     Console.WriteLine("Sorszám - Név - Gold jutalom - XP jutalom");
     Player p = Player.Peldanyositas(felhasznalo);
 
-    List<Boss> elerhetobossok = new(Bosses);
+    List<Boss> elerhetobossok_pre = new(Bosses);
 
     foreach (string s in File.ReadLines($"../Fileok/{felhasznalo}/legyozott_bossok.csv").Skip(1))
     {
         int item_id = int.Parse(s.Trim());
-        elerhetobossok.RemoveAll((Boss i) => i.id == item_id);
+        elerhetobossok_pre.RemoveAll((Boss i) => i.id == item_id);
 
     }
-    foreach (Boss boss in Bosses)
+
+    List<Boss> elerhetobossok = new();
+
+    foreach (Boss boss in elerhetobossok_pre)
     {
         if (boss.szukseges_xp <= p.xp)
         {
             Console.WriteLine($"{boss.id} - {boss.nev} - {boss.arany_jutalom} - {boss.xp_jutalom}");
+            elerhetobossok.Add(boss);
         }
     }
 
-}
+    if (elerhetobossok.Count == 0)
+    {
+        Console.Clear();
+        Console.WriteLine("Jelenleg nincs elérhető boss. Szerezz több XP-t!");
+        return;
+    }
 
+    Console.WriteLine();
+    Console.WriteLine("Válassz egy bosst: ");
+    string valasztas =  Console.ReadLine();
+    if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; }
+
+    while (!int.TryParse(valasztas, out int ID) || !elerhetobossok.Any(b => b.id == ID))
+    {
+        Console.WriteLine("Érvénytelen! az elérhető listából adj meg egy sorszámot!");
+        valasztas = Console.ReadLine();
+        if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; }
+    }
+
+    Boss kivalasztott_boss = null;
+    foreach (Boss boss in elerhetobossok)
+    {
+        if (boss.id == int.Parse(valasztas))
+        {
+            kivalasztott_boss = boss;
+            break;
+        }
+    }
+
+    double player_harciero = p.harciero_kiszamitas();
+    double boss_harciero = kivalasztott_boss.harciero_kiszamitas();
+
+    double gyozelmi_esely = player_harciero * player_harciero / ((player_harciero * player_harciero) + (boss_harciero * boss_harciero));
+
+    bool gyozott = Random.Shared.NextDouble() < gyozelmi_esely;
+
+    Console.Clear();
+    Console.WriteLine($"!! Ennél a bossnál a győzelmi esélyed ~{Math.Round(gyozelmi_esely*100)}%. Biztosan szeretnél vele harcolni? (0-kilépés | 1-igen | 2-nem)");
+    string valasztas_harc = Console.ReadLine();
+    if (kilepes_check_main_menu(valasztas_harc, felhasznalo)) { return; }
+
+    while (valasztas_harc != "1" && valasztas_harc != "2")
+    {
+        Console.WriteLine("Az egyik opciót válaszd ki!");
+        valasztas_harc = Console.ReadLine();
+        if (kilepes_check_main_menu(valasztas_harc, felhasznalo)) { return; }
+    }
+
+    if (valasztas_harc == "2")
+    {
+        Console.Clear();
+        return;
+    }
+
+    if (valasztas_harc == "1" && gyozott)
+    {
+        Console.Clear();
+        Console.WriteLine("Gratulálok! Győztél!");
+        Console.WriteLine($"Kaptál {kivalasztott_boss.arany_jutalom} aranyat és {kivalasztott_boss.xp_jutalom} CP-t");
+        
+        p.xp += kivalasztott_boss.xp_jutalom;
+        p.gold += kivalasztott_boss.arany_jutalom;
+        p.Mentes(felhasznalo);
+
+        File.AppendAllText($"../Fileok/{felhasznalo}/legyozott_bossok.csv",kivalasztott_boss.id.ToString()+"\n");
+    }
+
+
+
+    if (valasztas_harc == "1" && !gyozott)
+    {
+        Console.Clear();
+        Console.WriteLine("Vesztettél!");
+        Console.WriteLine($"Elvesztettél {Math.Round((p.gold)*0.2)} aranyat és {Math.Round((p.xp)*0.1)} xp-t");
+
+        p.xp = (int)Math.Round(p.xp * 0.9);
+        p.gold = (int)Math.Round(p.gold * 0.8);
+        p.Mentes(felhasznalo);
+    }
+}
+void titkos(string felhasznalo)
+{
+    Console.Clear();
+    Thread.Sleep(1000);
+    Console.WriteLine("Legyőzted az összes bosst.");
+    Console.WriteLine();
+    Thread.Sleep(3500);
+    Console.WriteLine("A játékot kivitted.");
+    Console.WriteLine();
+    Thread.Sleep(3500);
+    Console.WriteLine("Ha most visszamehetnél az időben, talán most jobban tudnád, mennyit számít egyetlen kis lépés.");
+    Console.WriteLine();
+    Thread.Sleep(3500);
+    Console.WriteLine("Emlékszel, hogyan kezdődött? Egy üres lista, egy halogatott feladat.");
+    Console.WriteLine();
+    Thread.Sleep(3500);
+    Console.WriteLine("Emlékszel az elsőre?");
+    Console.WriteLine();
+    Thread.Sleep(3500);
+    Console.WriteLine("Arra, amit végre nem holnapra halogattál?");
+    Console.WriteLine();
+    Thread.Sleep(3500);
+    Console.WriteLine("Ez az app sosem a bossokról szólt.");
+    Console.WriteLine();
+    Thread.Sleep(3500);
+    Console.WriteLine("Azért született, hogy a 'majd később' helyett a 'most' győzzön.");
+    Console.WriteLine();
+    Thread.Sleep(3500);
+    Console.WriteLine("Nem a bossok miatt értél ide, hanem azért, mert minden nap elkezdted, amit korábban elhalogattál.");
+    Console.WriteLine();
+    Thread.Sleep(4500);
+    Console.WriteLine("Minden egyes elvégzett task egy apró győzelem volt a halogatás felett.");
+    Console.WriteLine();
+    Thread.Sleep(3500);
+    Console.WriteLine("Hiszen az igazi ellenfél mindig ott lesz egy új feladat képében.");
+    Console.WriteLine();
+    Thread.Sleep(3000);
+    Console.WriteLine();
+    Console.Write("Visszaállítod a progressed? (igen/nem):");
+    string valasztas = Console.ReadLine().ToLower();
+    while (valasztas != "igen" && valasztas != "nem")
+    {  
+        Console.WriteLine("rossz válasz.");
+        valasztas = Console.ReadLine().ToLower();
+    }
+    if (valasztas == "nem")
+    {
+        Console.Clear();
+        return;
+    }
+    if (valasztas == "igen")
+    {
+        Directory.Delete($"../Fileok/{felhasznalo}", true);
+        create_datafiles(felhasznalo);
+        Console.Clear();
+        return;
+    }
+}
 //---------------------------------------------------------------
 void main_menu(string felhasznalo)
 {
@@ -691,16 +831,28 @@ void main_menu(string felhasznalo)
         Console.WriteLine("7. Lootbox nyitása");
         Console.WriteLine("8. Boss harcolása");
         Console.WriteLine("9. Kijelentkezés");
+        int cnt = 0;
+        bool beenged = false;
+        foreach (string sor in File.ReadLines($"../Fileok/{felhasznalo}/legyozott_bossok.csv").Skip(1))
+        {
+            cnt += 1;
+        }
+        if (cnt == 30)
+        {
+            Console.WriteLine("10. ???");
+            beenged = true;
+        }
         Console.Write("Opció: ");
 
 
         string valasztas = Console.ReadLine();
 
 
-        while (!main_valasztas_check(valasztas))
+        if (!main_valasztas_check(valasztas))
         {
-            Console.Write("Helytelen! Válaszd ki az egyik opciót (1-9): ");
-            valasztas = Console.ReadLine();
+            Console.Clear();
+            Console.WriteLine("Helytelen! Válaszd ki az egyik opciót (1-9)");
+            continue;
         }
 
 
@@ -751,10 +903,21 @@ void main_menu(string felhasznalo)
             startup();
             break;
         }
+        else if (valasztas == "10")
+        {
+            if (beenged)
+            {
+                titkos(felhasznalo);
+            }
+            else
+            {
+                Console.Clear();
+                Console.Write("Helytelen! Válaszd ki az egyik opciót (1-9) ");
+            }
+        }
     }
 }
 //---------------------------------------------------------------
-
 void task_torlese(string felhasznalo, List<Task> taskok)
 {
     Console.WriteLine();
@@ -766,7 +929,7 @@ void task_torlese(string felhasznalo, List<Task> taskok)
     string valasztas = Console.ReadLine();
 
 
-    kilepes_check_main_menu(valasztas, felhasznalo);
+    if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; }
 
 
     int v;
@@ -774,7 +937,7 @@ void task_torlese(string felhasznalo, List<Task> taskok)
     {
         Console.Write("Helytelen, irj be egy szamot 1-9-ig: ");
         valasztas = Console.ReadLine();
-        kilepes_check_main_menu(valasztas, felhasznalo);
+        if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; }
     }
 
     foreach (Task s in taskok)
@@ -839,7 +1002,7 @@ void task_felvetele(string felhasznalo, List<Task> taskok)
         string valasztas = Console.ReadLine();
 
 
-        kilepes_check_main_menu(valasztas, felhasznalo);
+        if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; }
 
 
         int v;
@@ -847,7 +1010,7 @@ void task_felvetele(string felhasznalo, List<Task> taskok)
         {
             Console.WriteLine("Számot írj be 1-9-ig: ");
             valasztas = Console.ReadLine();
-            kilepes_check_main_menu(valasztas, felhasznalo);
+            if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; }
         }
 
 
@@ -928,7 +1091,7 @@ void task_teljesitese(string felhasznalo, List<Task> taskok)
     string valasztas = Console.ReadLine();
 
 
-    kilepes_check_main_menu(valasztas, felhasznalo);
+    if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; }
 
 
     int v;
@@ -936,7 +1099,7 @@ void task_teljesitese(string felhasznalo, List<Task> taskok)
     {
         Console.WriteLine("Helytelen, irj be egy szamot 1-9-ig: ");
         valasztas = Console.ReadLine();
-        kilepes_check_main_menu(valasztas, felhasznalo);
+        if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; }
     }
 
 

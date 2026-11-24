@@ -328,13 +328,13 @@ void inventory_kezelese(string felhasznalo, List<Item> items)
 
         Console.Write("Melyik sorszámú fegyvert szeretnéd felvenni?: ");
         string valasztas_weapon = Console.ReadLine();
-        if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; }
+        if (kilepes_check_main_menu(valasztas_weapon, felhasznalo)) { return; }
 
         while (!fegyvereid.Contains(valasztas_weapon))
         {
             Console.Write("Nincs ilyen sorszámú fegyvered!: ");
             valasztas_weapon = Console.ReadLine();
-            kilepes_check_main_menu(valasztas_weapon, felhasznalo);
+            if (kilepes_check_main_menu(valasztas_weapon, felhasznalo)) { return; }
         }
 
         int valasztas_weapon_int = int.Parse(valasztas_weapon);
@@ -371,13 +371,13 @@ void inventory_kezelese(string felhasznalo, List<Item> items)
 
         Console.Write("Melyik sorszámú a armort szeretnéd felvenni?: ");
         string valasztas_armor = Console.ReadLine();
-        if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; }
+        if (kilepes_check_main_menu(valasztas_armor, felhasznalo)) { return; }
 
         while (!panceljaid.Contains(valasztas_armor))
         {
             Console.WriteLine("Nincs ilyen sorszámú armorod!");
             valasztas_armor = Console.ReadLine();
-            if (kilepes_check_main_menu(valasztas, felhasznalo)) { return; }
+            if (kilepes_check_main_menu(valasztas_armor, felhasznalo)) { return; }
         }
 
         int valasztas_armor_int = int.Parse(valasztas_armor);

@@ -1,10 +1,5 @@
 ﻿
 //---------------------------------------------------------------
-
-using System.ComponentModel.Design;
-using System.Numerics;
-using System.Runtime.InteropServices;
-
 Directory.CreateDirectory("../Fileok");
 File.AppendAllText("../Fileok/regisztraciok.txt", "");
 //---------------------------------------------------------------
@@ -35,6 +30,14 @@ foreach (string sor in File.ReadLines("armor.csv").Skip(1))
 {
     string[] adatok = sor.Trim().Split(";");
     Items.Add(new Armor(int.Parse(adatok[0]), adatok[1], adatok[2], int.Parse(adatok[3])));
+}
+
+List<Boss> Bosses = new List<Boss>();
+
+foreach (string sor in File.ReadLines("bosses.csv").Skip(1))
+{
+    string[] adatok = sor.Trim().Split(";");
+    Bosses.Add(new Boss(int.Parse(adatok[0]), adatok[1] , int.Parse(adatok[2]), int.Parse(adatok[3]), int.Parse(adatok[4]), int.Parse(adatok[5]), int.Parse(adatok[6])));
 }
 
 //---------------------------------------------------------------
@@ -242,7 +245,6 @@ void kilepes_check_main_menu(string ertek, string felhasznalo)
     }
 }
 //---------------------------------------------------------------
-
 
 void player_stat_kiiratas(string felhasznalo)
 {
@@ -645,8 +647,31 @@ void lootbox_mentes(string felhasznalo, List<Item> Items, int pick)
 
 void bossfight(string felhasznalo)
 {
+    Console.Clear();
     Console.WriteLine("!!! A BOSSFIGHT SZERENCSE ALAPON MŰKÖDIK! VESZTÉSNÉL JELENTŐS LOOT VESZTÉS");
-    // ...
+
+    Console.WriteLine();
+    Console.WriteLine("Elérhető bossok:");
+    Console.WriteLine();
+    Console.WriteLine("Sorszám - Név - Gold jutalom - XP jutalom");
+    Player p = Player.Peldanyositas(felhasznalo);
+
+    List<Boss> elerhetobossok = new(Bosses);
+
+    foreach (string s in File.ReadLines($"../Fileok/{felhasznalo}/legyozott_bossok.csv").Skip(1))
+    {
+        int item_id = int.Parse(s.Trim());
+        elerhetobossok.RemoveAll((Boss i) => i.id == item_id);
+
+    }
+    foreach (Boss boss in Bosses)
+    {
+        if (boss.szukseges_xp <= p.xp)
+        {
+            Console.WriteLine($"{boss.id} - {boss.nev} - {boss.arany_jutalom} - {boss.xp_jutalom}");
+        }
+    }
+
 }
 
 //---------------------------------------------------------------
@@ -714,7 +739,7 @@ void main_menu(string felhasznalo)
         }
         else if (valasztas == "8")
         {
-            //boss oles
+            bossfight(felhasznalo);
         }
 
         else if (valasztas == "9")

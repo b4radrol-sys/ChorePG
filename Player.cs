@@ -1,4 +1,6 @@
-﻿public class Player
+﻿using System.Xml.XPath;
+
+public class Player
 {
     public int xp { get; set; }
     public int gold { get; set; }
@@ -64,10 +66,13 @@
         }
         return "Nincs felvéve páncél!";
     }
-
+    public int szint_kiszamitas()
+    {
+        return xp / 100;
+    }
     public void player_stat_kiiratas()
     {
-        Console.WriteLine($"xp: {xp}");
+        Console.WriteLine($"xp: {xp} ({szint_kiszamitas()}-as szint)");
         Console.WriteLine($"gold: {gold}");
         Console.WriteLine($"Felvett fegyver: {fegyver_kiszamitas("weapons.csv")}");
         Console.WriteLine($"Felvett páncél: {armor_kiszamitas("armor.csv")}");

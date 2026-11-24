@@ -1,10 +1,51 @@
 id;nev;ritkasag;defbonusz
 101;Bőrpáncél;common;2
-102;Láncpáncál;uncommon;4
-103;Vaspáncél;rare;6
-104;Gyémántpáncél;epic;8
-105;Netherite páncél;legendary;15
-106;Sárkány csont páncél;epic;12
+102;Láncpáncél;uncommon;5
+103;Vaspáncél;rare;8
+104;Gyémántpáncél;epic;11
+105;Netherite páncél;legendary;17
+106;Sárkány csont páncél;epic;14
 107;Árnyékpáncél;legendary;20
-108;T60;legendary;22
+108;T60;legendary;21
 109;Dühöngő farkaspáncél;mythic;25
+110;Vászon ruha;common;2
+111;Szőrme mellény;common;3
+112;Faháncs páncél;common;3
+113;Steppelt kabát;common;4
+114;Pikkelypáncél;uncommon;5
+115;Rézpáncél;uncommon;6
+116;Vadászköpeny;uncommon;6
+117;Bronz mellvért;uncommon;7
+118;Lovagi páncél;rare;8
+119;Ezüst páncél;rare;9
+120;Lemezpáncél;rare;9
+121;Gárdista páncél;rare;10
+122;Acélpáncél;rare;10
+123;Obszidián páncél;epic;12
+124;Jégpáncél;epic;12
+125;Vérpáncél;epic;13
+126;Mennyei páncél;legendary;18
+127;Aranyszárnyú páncél;legendary;19
+128;Valkűr páncél;mythic;27
+129;Aegis;mythic;26
+130;Ősi sárkánypáncél;mythic;24
+131;Tépett köpeny;common;2
+132;Kenderruha;common;3
+133;Fa mellvért;common;4
+134;Edzett bőrpáncél;uncommon;5
+135;Szegecselt mellény;uncommon;6
+136;Harci köpeny;uncommon;7
+137;Gladiátor páncél;rare;8
+138;Skarlát páncél;rare;9
+139;Mithril ing;rare;10
+140;Hegyi páncél;rare;9
+141;Vulkáni páncél;epic;11
+142;Fagyöntő páncél;epic;12
+143;Viharpáncél;epic;13
+144;Démonbőr páncél;epic;14
+145;Csillagpáncél;legendary;18
+146;Fénypáncél;legendary;19
+147;Sötét Király páncélja;legendary;21
+148;Kronosz páncél;mythic;24
+149;Ragnarök mellvért;mythic;26
+150;Világfa páncél;mythic;27

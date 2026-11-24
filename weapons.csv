@@ -2,9 +2,50 @@ id;nev;ritkasag;atkbonusz
 1;Fa kard;common;3
 2;Kő kard;uncommon;6
 3;Vas kard;rare;9
-4;Gyémánt kard;epic;12
+4;Gyémánt kard;epic;13
 5;Netherite kard;legendary;20
 6;Sárkány csont kard;epic;16
 7;Holdfény kard;legendary;22
 8;Maszamune;mythic;25
 9;Yamato;mythic;30
+10;Rozsdás tőr;common;3
+11;Fa bunkó;common;4
+12;Kovakő balta;common;4
+13;Csorba szablya;common;5
+14;Rézkard;uncommon;6
+15;Bronz szablya;uncommon;7
+16;Vadászkés;uncommon;7
+17;Acélozott kopja;uncommon;8
+18;Lovagi hosszúkard;rare;10
+19;Ezüst tőr;rare;10
+20;Csatabárd;rare;11
+21;Pallos;rare;11
+22;Katana;rare;12
+23;Jégszilánk kard;epic;14
+24;Obszidián kard;epic;15
+25;Vérpenge;epic;17
+26;Sárkányölő;legendary;19
+27;Excalibur;legendary;21
+28;Ragnarök;legendary;23
+29;Kusanagi;mythic;27
+30;Gram;mythic;29
+31;Fa dárda;common;3
+32;Kőbalta;common;4
+33;Szöges bunkó;common;5
+34;Vas tőr;uncommon;6
+35;Harci kalapács;uncommon;7
+36;Lándzsa;uncommon;8
+37;Hadi pöröly;rare;9
+38;Párbajkard;rare;10
+39;Rúnapenge;rare;11
+40;Vérszomjas szablya;rare;12
+41;Villámkard;epic;13
+42;Méregpenge;epic;14
+43;Árnyéktőr;epic;15
+44;Tűzkard;epic;17
+45;Csillagpenge;legendary;20
+46;Végzet pengéje;legendary;21
+47;Aranyhajnal;legendary;22
+48;Muramasa;mythic;26
+49;Tyrfing;mythic;28
+50;Longinusz lándzsa;mythic;30

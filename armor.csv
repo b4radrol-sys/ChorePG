@@ -8,17 +8,17 @@ id;nev;ritkasag;defbonusz
 107;Árnyékpáncél;legendary;20
 108;T60;legendary;21
 109;Dühöngő farkaspáncél;mythic;25
-110;Vászon ruha;common;2
+110;Gyuri nadrágja;common;2
 111;Szőrme mellény;common;3
-112;Faháncs páncél;common;3
-113;Steppelt kabát;common;4
-114;Pikkelypáncél;uncommon;5
+112;Kádár sálja;common;3
+113;Paulik sálja;common;4
+114;Forgó fehér ingje;uncommon;5
 115;Rézpáncél;uncommon;6
 116;Vadászköpeny;uncommon;6
 117;Bronz mellvért;uncommon;7
 118;Lovagi páncél;rare;8
 119;Ezüst páncél;rare;9
-120;Lemezpáncél;rare;9
+120;Forgó farmer nadrágja;rare;9
 121;Gárdista páncél;rare;10
 122;Acélpáncél;rare;10
 123;Obszidián páncél;epic;12
@@ -26,9 +26,9 @@ id;nev;ritkasag;defbonusz
 125;Vérpáncél;epic;13
 126;Mennyei páncél;legendary;18
 127;Aranyszárnyú páncél;legendary;19
-128;Valkűr páncél;mythic;27
-129;Aegis;mythic;26
-130;Ősi sárkánypáncél;mythic;24
+128;Forgó sötét ingje;mythic;27
+129;Polyák örök pólója;mythic;26
+130;City sisak;mythic;24
 131;Tépett köpeny;common;2
 132;Kenderruha;common;3
 133;Fa mellvért;common;4
@@ -37,15 +37,16 @@ id;nev;ritkasag;defbonusz
 136;Harci köpeny;uncommon;7
 137;Gladiátor páncél;rare;8
 138;Skarlát páncél;rare;9
-139;Mithril ing;rare;10
-140;Hegyi páncél;rare;9
+139;Cheng sisak;rare;10
+140;Hegyiközi páncél;rare;9
 141;Vulkáni páncél;epic;11
-142;Fagyöntő páncél;epic;12
+142;Cramp nadrág;epic;12
 143;Viharpáncél;epic;13
-144;Démonbőr páncél;epic;14
+144;Dioh nadrág;epic;14
 145;Csillagpáncél;legendary;18
 146;Fénypáncél;legendary;19
 147;Sötét Király páncélja;legendary;21
 148;Kronosz páncél;mythic;24
 149;Ragnarök mellvért;mythic;26
 150;Világfa páncél;mythic;27
+151;Tulkán Sketchers;epic;13

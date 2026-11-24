@@ -6,26 +6,26 @@ id;nev;atk;def;szukseges_xp;arany_jutalom;xp_jutalom
 5;Mocsári Boszorkány;13;12;400;95;100
 6;Tűzsárkány;13;14;500;110;100
 7;Éjszakai Lovag;15;15;600;125;100
-8;Kígyóanya;16;16;700;140;100
+8;Háromfejű Kígyó Gyógyó;16;16;700;140;100
 9;Renalla;17;18;800;155;100
-10;Vérfarkas Alfa;19;18;900;170;100
-11;Korrupt Őrző;20;20;1000;185;100
+10;Vérfarkas;19;18;900;170;100
+11;Tesi Terem Őrzője;20;20;1000;185;100
 12;Maliketh;21;22;1100;200;100
 13;Sötét Hercegnő;23;23;1200;215;100
 14;Gyász Herceg;25;24;1300;230;100
 15;Malénia;26;26;1400;245;100
 16;Árnyékúr;27;28;1500;260;100
-17;Lávakirály;29;30;1600;275;100
+17;Paul Ikrek;29;30;1600;275;100
 18;Világfaló Féreg;31;31;1700;290;100
 19;Csontvázkirály;25;41;1800;305;100
 20;Tűz Óriás;26;43;1900;320;100
 21;Jégtitán;28;45;2000;335;100
-22;Elemi Gólem;39;38;2100;350;100
+22;Elixir Gólem;39;38;2100;350;100
 23;Kristályárnyék;41;40;2200;365;100
 24;Isteni Bukott;43;44;2300;380;100
 25;Halál Lovag;46;46;2400;395;100
 26;Végzet Madara;49;49;2500;410;100
-27;Rettegett Császár;51;52;2600;425;100
-28;Pusztító Titán;55;54;2700;440;100
+27;Bánya Imre;51;52;2600;425;100
+28;Sötét Inges Forgó Gábor ;55;54;2700;440;100
 29;Utolsó Isten;57;58;2800;455;100
 30;Koromfekete Lovag;61;60;2900;470;100

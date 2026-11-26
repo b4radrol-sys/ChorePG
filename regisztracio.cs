@@ -23,6 +23,10 @@
             {
                 throw new ArgumentException("A felhasználónév csak 3-12 karakter hosszűságő lehet.");
             }
+            if (value.Contains(':') || value.Contains('/'))
+            {
+                throw new ArgumentException("A felhasználónév nem tartalmazhat vesszőt és /-jelet");
+            }
             nev = value;
         }
     }
@@ -42,6 +46,10 @@
             if (!value.Any(char.IsUpper) || !value.Any(char.IsDigit))
             {
                 throw new ArgumentException("A jelszónak tartalmaznia kell számot és nagy betűt.");
+            }
+            if (value.Contains(':') || value.Contains('/'))
+            {
+                throw new ArgumentException("A jelszó nem tartalmazhat vesszőt és /-jelet");
             }
             jelszo = value;
         }

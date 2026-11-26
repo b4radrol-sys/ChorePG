@@ -734,7 +734,7 @@ void bossfight(string felhasznalo)
     {
         Console.Clear();
         Console.WriteLine("Gratulálok! Győztél!");
-        Console.WriteLine($"Kaptál {kivalasztott_boss.arany_jutalom} aranyat és {kivalasztott_boss.xp_jutalom} CP-t");
+        Console.WriteLine($"Kaptál {kivalasztott_boss.arany_jutalom} aranyat és {kivalasztott_boss.xp_jutalom} XP-t");
         
         p.xp += kivalasztott_boss.xp_jutalom;
         p.gold += kivalasztott_boss.arany_jutalom;
